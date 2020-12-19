@@ -2,7 +2,6 @@
   html
     font-size: 14px
   .header
-    padding: 0 1.3rem
     &_logo
       display: none
     &_burger
@@ -10,3 +9,16 @@
       position: relative
       width: 30px
       height: 25px
+  .sidebar
+    position: absolute
+    top: 0
+    left: -100%
+    transition: 0.4s
+    &__show
+      left: 0
+      background-color: $white
+      border-radius: 3px
+      z-index: 1000
+
+  .content
+    width: 100%

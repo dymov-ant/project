@@ -2,9 +2,9 @@ import React from "react";
 
 const SettingsPage = () => {
     return (
-        <div>
+        <nav>
             <h1>SettingsPage</h1>
-        </div>
+        </nav>
     )
 }
 
