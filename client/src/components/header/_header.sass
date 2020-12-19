@@ -1,0 +1,63 @@
+.header
+  display: flex
+  justify-content: space-between
+  align-items: center
+  height: 3rem
+  color: $white
+  background-color: $primary
+  padding: 0 2rem
+  margin-bottom: 0.5rem
+  &_logo
+    display: block
+    font-size: 1.5rem
+  &_burger
+    display: none
+    cursor: pointer
+    position: relative
+    & span, &:after, &:before
+      height: 3px
+      width: 100%
+      position: absolute
+      background: $white
+      margin: 0 auto
+      transition-duration: .25s
+    &:after, &:before
+      content: ""
+    & span
+      top: 11px
+    &:after
+      bottom: 5px
+    &:before
+      top: 5px
+    &__open
+      & span
+        opacity: 0
+        transition: 0.3s
+      &:before
+        top: 11px
+        transform: rotate(38deg)
+        transition: 0.4s
+      &:after
+        bottom: 11px
+        transform: rotate(-38deg)
+        transition: 0.4s
+  &_user
+    cursor: pointer
+    position: relative
+    &:hover .header_submenu
+      transform: scaleY(1)
+  &_submenu
+    position: absolute
+    top: 130%
+    right: 0
+    background: $light
+    border-radius: 5px
+    list-style: none
+    transition: 0.3s ease-in-out
+    transform: scaleY(0)
+    transform-origin: 0 0
+    padding: 0.4rem 0.8rem
+    z-index: 9999
+    & li
+      text-align: center
+      padding: 0.3rem 0.5rem
