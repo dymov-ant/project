@@ -27,13 +27,16 @@ const App = ({isMobile, showSidebar, setIsMobile, setShowSidebar}) => {
     })
 
     return (
-        <>
+        <div className={isMobile && showSidebar
+            ? "app shadow"
+            : "app"}>
             <Header/>
-            <div className="container">
+            <div className="container pt-05">
                 {
                     isAuth ?
                         <div className="row justify-content-between relative">
                             <CSSTransition
+                                timeout={300}
                                 in={showSidebar}
                                 classNames="sidebar"
                                 unmountOnExit
@@ -49,7 +52,7 @@ const App = ({isMobile, showSidebar, setIsMobile, setShowSidebar}) => {
                         </div>
                 }
             </div>
-        </>
+        </div>
     );
 }
 

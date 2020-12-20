@@ -1,10 +1,11 @@
 .header
+  position: relative
   display: flex
   align-items: center
   height: 3rem
   color: $white
   background-color: $primary
-  margin-bottom: 0.5rem
+  z-index: 1000
   &_wrapper
     display: flex
     justify-content: space-between
@@ -34,15 +35,15 @@
     &__open
       & span
         opacity: 0
-        transition: 0.3s
+        transition: 0.4s
       &:before
         top: 11px
         transform: rotate(38deg)
-        transition: 0.4s
+        transition: 0.3s
       &:after
         bottom: 11px
         transform: rotate(-38deg)
-        transition: 0.4s
+        transition: 0.3s
   &_user
     cursor: pointer
     position: relative
