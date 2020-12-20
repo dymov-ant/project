@@ -1,30 +1,34 @@
-import React, {useEffect} from "react";
+import React, {useCallback, useEffect} from "react";
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
 import {setShowSidebar} from "../../redux/actions/app";
 
-const Sidebar = ({showSidebar, setShowSidebar}) => {
 
-    const handleClickOutside = event => {
+const Sidebar = ({isMobile, setShowSidebar}) => {
+
+    const handleClickOutside = useCallback(event => {
         console.log("click")
         const sidebar = document.getElementsByClassName("sidebar")[0];
         const btn = document.getElementsByClassName("header_burger")[0];
         if (!event.path.includes(sidebar) && !event.path.includes(btn)) {
             setShowSidebar(false);
         }
-    };
+    }, [setShowSidebar]);
 
     const handleClickLink = () => {
         setShowSidebar(false);
     }
 
     useEffect(() => {
-        document.addEventListener("click", handleClickOutside);
+        if (isMobile) {
+            document.addEventListener("click", handleClickOutside);
+        }
+        return () => document.removeEventListener("click", handleClickOutside);
+    })
 
-    }, [showSidebar])
 
     return (
-        <nav className={showSidebar ? "sidebar sidebar__show" : "sidebar"}>
+        <nav className={"sidebar"}>
             <ul className="sidebar_list">
                 <li
                     className="sidebar_item"
@@ -56,7 +60,7 @@ const Sidebar = ({showSidebar, setShowSidebar}) => {
 }
 
 const mapStateToProps = state => ({
-    showSidebar: state.app.showSidebar
+    isMobile: state.app.isMobile
 });
 
 export default connect(mapStateToProps, {setShowSidebar})(Sidebar);

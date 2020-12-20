@@ -11,14 +11,22 @@
       height: 25px
   .sidebar
     position: absolute
-    top: 0
-    left: -100%
-    transition: 0.4s
-    &__show
+    background-color: $white
+    border-radius: 3px
+    z-index: 1000
+    &-enter
+      top: 0
+      left: -100%
+      &-active
+        top: 0
+        left: 0
+        transition: 0.3s
+    &-exit
+      top: 0
       left: 0
-      background-color: $white
-      border-radius: 3px
-      z-index: 1000
-
+      &-active
+        top: 0
+        left: -100%
+        transition: 0.3s
   .content
     width: 100%

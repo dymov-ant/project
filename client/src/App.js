@@ -1,5 +1,6 @@
-import React, {useState, useEffect} from "react";
+import React, {useEffect} from "react";
 import {connect} from "react-redux";
+import {CSSTransition} from "react-transition-group";
 import Header from "./components/header/Header";
 import Sidebar from "./components/sidebar/Sidebar";
 import {useRoutes} from "./useRoutes";
@@ -32,7 +33,13 @@ const App = ({isMobile, showSidebar, setIsMobile, setShowSidebar}) => {
                 {
                     isAuth ?
                         <div className="row justify-content-between relative">
-                            {<Sidebar/>}
+                            <CSSTransition
+                                in={showSidebar}
+                                classNames="sidebar"
+                                unmountOnExit
+                            >
+                                <Sidebar/>
+                            </CSSTransition>
                             <div className="content">
                                 {routes}
                             </div>
