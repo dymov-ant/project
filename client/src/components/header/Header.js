@@ -1,9 +1,42 @@
-import React, {useState} from "react";
+import React from "react";
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
 import {setShowSidebar} from "../../redux/actions/app";
 
-const Header = ({showSidebar, setShowSidebar}) => {
+const Logo = () => {
+    return (
+        <div className="header_logo">
+            Logo
+        </div>
+    )
+}
+
+const Burger = ({isOpen, menuToggle}) => {
+    return (
+        <div
+            className={isOpen ? "header_burger header_burger__open" : "header_burger"}
+            onClick={menuToggle}
+        >
+            <span/>
+        </div>
+    )
+}
+
+const UserBox = () => {
+    return (
+        <div className="header_user">
+            <span>User Name</span>
+            <ul className="header_submenu">
+                <li><Link className="" to="/settings">Настройки</Link></li>
+                <li>
+                    <button className="btn btn__block btn__danger">Выход</button>
+                </li>
+            </ul>
+        </div>
+    )
+}
+
+const Header = ({isAuth, isMobile, showSidebar, setShowSidebar}) => {
 
     const menuToggle = () => {
         setShowSidebar(!showSidebar);
@@ -13,30 +46,23 @@ const Header = ({showSidebar, setShowSidebar}) => {
 
         <header className="header">
             <div className="header_wrapper container">
-                <div className="header_logo">
-                    Logo
-                </div>
-                <div
-                    className={showSidebar ? "header_burger header_burger__open" : "header_burger"}
-                    onClick={menuToggle}
-                >
-                    <span/>
-                </div>
-                <div className="header_user">
-                    <span>User Name</span>
-                    <ul className="header_submenu">
-                        <li><Link className="" to="/settings">Настройки</Link></li>
-                        <li>
-                            <button className="btn btn__block btn__danger">Выход</button>
-                        </li>
-                    </ul>
-                </div>
+                {
+                    isAuth
+                        ? isMobile
+                            ? <Burger isOpen={showSidebar} menuToggle={menuToggle}/>
+                            : <Logo/>
+                        : <Logo/>
+                }
+                {
+                    isAuth && <UserBox/>
+                }
             </div>
         </header>
     )
 }
 
 const mapStateToProps = state => ({
+    isMobile: state.app.isMobile,
     showSidebar: state.app.showSidebar
 });
 

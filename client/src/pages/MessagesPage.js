@@ -2,9 +2,9 @@ import React from "react";
 
 const MessagesPage = () => {
     return (
-        <nav>
+        <div>
             <h1>MessagesPage</h1>
-        </nav>
+        </div>
     )
 }
 

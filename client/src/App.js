@@ -8,7 +8,7 @@ import {setIsMobile, setShowSidebar} from "./redux/actions/app";
 import "./app.sass";
 
 const App = ({isMobile, showSidebar, setIsMobile, setShowSidebar}) => {
-    const isAuth = true;
+    const isAuth = false;
     const routes = useRoutes(isAuth);
 
     const updateViewState = () => {
@@ -23,18 +23,17 @@ const App = ({isMobile, showSidebar, setIsMobile, setShowSidebar}) => {
 
     useEffect(() => {
         updateViewState();
-        window.addEventListener("resize", updateViewState)
+        window.addEventListener("resize", updateViewState);
+        return () => window.removeEventListener("resize", updateViewState);
     })
 
     return (
-        <div className={isMobile && showSidebar
-            ? "app shadow"
-            : "app"}>
-            <Header/>
+        <div className={isMobile && showSidebar ? "app shadow" : "app"}>
+            <Header isAuth={isAuth}/>
             <div className="container pt-05">
                 {
-                    isAuth ?
-                        <div className="row justify-content-between relative">
+                    isAuth
+                        ? <div className="row justify-content-between relative">
                             <CSSTransition
                                 timeout={300}
                                 in={showSidebar}
@@ -46,8 +45,8 @@ const App = ({isMobile, showSidebar, setIsMobile, setShowSidebar}) => {
                             <div className="content">
                                 {routes}
                             </div>
-                        </div> :
-                        <div className="content">
+                        </div>
+                        : <div className="content">
                             {routes}
                         </div>
                 }

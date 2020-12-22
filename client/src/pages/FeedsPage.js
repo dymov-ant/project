@@ -2,9 +2,9 @@ import React from "react";
 
 const FeedsPage = () => {
     return (
-        <nav>
+        <div>
             <h1>FeedsPage</h1>
-        </nav>
+        </div>
     )
 }
 

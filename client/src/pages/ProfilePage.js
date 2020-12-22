@@ -2,9 +2,9 @@ import React from "react";
 
 const ProfilePage = () => {
     return (
-        <nav>
+        <div>
             <h1>ProfilePage</h1>
-        </nav>
+        </div>
     )
 }
 

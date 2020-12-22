@@ -1,6 +1,6 @@
 import {Switch, Route, Redirect} from "react-router-dom";
 import SettingsPage from "./pages/SettingsPage";
-import SignInPage from "./pages/SignInPage";
+import SignInPage from "./pages/signIn/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
 import FriendsPage from "./pages/FriendsPage";
 import MessagesPage from "./pages/MessagesPage";
