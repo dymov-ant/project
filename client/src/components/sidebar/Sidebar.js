@@ -7,7 +7,6 @@ import {setShowSidebar} from "../../redux/actions/app";
 const Sidebar = ({isMobile, setShowSidebar}) => {
 
     const handleClickOutside = useCallback(event => {
-        console.log("click")
         const sidebar = document.getElementsByClassName("sidebar")[0];
         const btn = document.getElementsByClassName("header_burger")[0];
         if (!event.path.includes(sidebar) && !event.path.includes(btn)) {

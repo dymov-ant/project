@@ -1,7 +1,7 @@
 import {Switch, Route, Redirect} from "react-router-dom";
 import SettingsPage from "./pages/SettingsPage";
-import SignInPage from "./pages/signIn/SignInPage";
-import SignUpPage from "./pages/SignUpPage";
+import SignInPage from "./pages/signPage/SignInPage";
+import SignUpPage from "./pages/signPage/SignUpPage";
 import FriendsPage from "./pages/FriendsPage";
 import MessagesPage from "./pages/MessagesPage";
 import FeedsPage from "./pages/FeedsPage";
