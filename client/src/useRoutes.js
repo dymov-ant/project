@@ -5,7 +5,7 @@ import SignUpPage from "./pages/signPage/SignUpPage";
 import FriendsPage from "./pages/FriendsPage";
 import MessagesPage from "./pages/MessagesPage";
 import FeedsPage from "./pages/FeedsPage";
-import ProfilePage from "./pages/ProfilePage";
+import ProfilePage from "./pages/profilePage/ProfilePage";
 
 export const useRoutes = (isAuth) => {
     if (isAuth) {

@@ -8,7 +8,7 @@ import {setIsMobile, setShowSidebar} from "./redux/actions/app";
 import "./app.sass";
 
 const App = ({isMobile, showSidebar, setIsMobile, setShowSidebar}) => {
-    const isAuth = false;
+    const isAuth = true;
     const routes = useRoutes(isAuth);
 
     const updateViewState = () => {
