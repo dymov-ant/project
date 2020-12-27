@@ -1,18 +1,35 @@
 .profile
   display: flex
-  justify-content: space-between
+  flex-direction: column
+  &_wrapper
+    display: flex
+    justify-content: space-between
+    margin-bottom: 1.5rem
   &_photo
-    //width: 20rem
-    //height: 15rem
+    display: flex
+    flex-direction: column
     border-radius: 0.25rem
     background-color: $white
     padding: 0.5rem 0.4rem
+    margin-right: 2rem
+    & img
+      width: 15rem
+      height: 12rem
+      object-fit: cover
+      object-position: top
+      margin-bottom: 0.5rem
   &_info
     width: 100%
-    padding-left: 1rem
+    border-radius: 0.25rem
+    background-color: $white
+    padding: 0.5rem 0.8rem
   &_title
-    margin-bottom: 0.7rem
+    margin-bottom: 1rem
   &_status
-    max-width: 34.5rem
+    max-width: 100%
+    margin-bottom: 2rem
   &_subtext
-    margin-bottom: 0.7rem
+    font-size: 1rem
+    margin-bottom: 1.2rem
+    &:last-child
+      margin-bottom: 0
