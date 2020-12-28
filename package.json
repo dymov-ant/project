@@ -1,0 +1,28 @@
+{
+  "name": "socialnetwork",
+  "version": "1.0.0",
+  "description": "training project",
+  "main": "app.js",
+  "repository": "https://github.com/dymov-ant/project.git",
+  "author": "Anton Dymov <dymov.ant@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "node app.js",
+    "server": "nodemon app.js",
+    "client": "yarn run start --prefix client",
+    "dev": "concurrently \"yarn run server\" \"yarn run client\""
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "config": "^3.3.3",
+    "express": "^4.17.1",
+    "express-validator": "^6.9.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.11.8",
+    "multer": "^1.4.2"
+  },
+  "devDependencies": {
+    "concurrently": "^5.3.0",
+    "nodemon": "^2.0.6"
+  }
+}
