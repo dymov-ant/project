@@ -2,6 +2,7 @@ const {check, validationResult} = require("express-validator");
 const {Router} = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const config = require("config");
 const User = require("../models/User");
 
 const router = Router();
@@ -30,7 +31,7 @@ router.post(
                 res.status(400).json({message: "Такой пользователь уже существует"});
             }
 
-            const hashedPassword = await bcript.hash(password, 12);
+            const hashedPassword = await bcrypt.hash(password, 12);
             const newUser = new User({name, email, password: hashedPassword, birthDate});
             await newUser.save();
             res.status(201).json({message: "Пользователь создан!"});
