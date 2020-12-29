@@ -6,7 +6,7 @@ const app = express();
 
 app.use(express.json({extended: true}));
 
-app.use("/api/auth", require("./routes/auth.routes"));
+app.use("/api/v1/auth", require("./routes/auth.routes"));
 
 async function start() {
     try {

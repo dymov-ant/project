@@ -1,14 +1,18 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
+import {connect} from "react-redux";
 import {useFormik} from "formik";
+import {register} from "../../redux/actions/auth";
 
-const SignUpPage = () => {
+const SignUpPage = ({authErrors, appMessage, register}) => {
 
     const validate = values => {
         const errors = {};
 
         if (!values.name) {
             errors.name = "Поле обязательно";
+        } else if (values.name.length < 5) {
+            errors.name = "Минимальная длина имени и фамилии 5 символов";
         }
 
         if (!values.email) {
@@ -19,6 +23,8 @@ const SignUpPage = () => {
 
         if (!values.password) {
             errors.password = "Поле обязательно";
+        } else if (values.password.length < 6) {
+            errors.password = "Минимальная длина пароля 6 символов";
         }
 
         if (!values.birthdate) {
@@ -27,6 +33,8 @@ const SignUpPage = () => {
 
         return errors;
     }
+
+    const history = useHistory();
 
     const formik = useFormik({
         initialValues: {
@@ -37,7 +45,7 @@ const SignUpPage = () => {
         },
         validate,
         onSubmit: values => {
-            alert(JSON.stringify(values));
+            register(values, history);
         }
     })
 
@@ -120,7 +128,12 @@ const SignUpPage = () => {
                             ? (<div className="subtext error mb-05">{formik.errors.birthdate}</div>)
                             : null
                     }
-                    <button className="btn btn__primary btn__block" type="submit">Регистрация</button>
+                    <button className="btn btn__primary btn__block mb-05" type="submit">Регистрация</button>
+                    {
+                        authErrors.length !== 0
+                            ? authErrors.map(e => <div className="subtext error mb-05">{e.msg}</div>)
+                            : appMessage && <div className="subtext error mb-05">{appMessage}</div>
+                    }
                 </form>
                 <p className="subtext">Уже есть аккаунт? <Link to="/">Войти!</Link></p>
             </div>
@@ -128,4 +141,9 @@ const SignUpPage = () => {
     )
 }
 
-export default SignUpPage;
+const mapStateToProps = state => ({
+    authErrors: state.auth.errors,
+    appMessage: state.app.message
+})
+
+export default connect(mapStateToProps, {register})(SignUpPage);

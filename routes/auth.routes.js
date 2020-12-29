@@ -20,6 +20,7 @@ router.post(
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
                 return res.status(400).json({
+                    errorCode: 1,
                     errors: errors.array(),
                     message: "Некорректные данные при регистрации!"
                 });

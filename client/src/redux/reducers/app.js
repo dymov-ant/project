@@ -1,8 +1,10 @@
-import {IS_MOBILE, SHOW_SIDEBAR} from "../actions/types";
+import {IS_MOBILE, SHOW_SIDEBAR, SET_LOADING, SET_MESSAGE} from "../actions/types";
 
 const initialState = {
     isMobile: false,
-    showSidebar: true
+    showSidebar: true,
+    loading: false,
+    message: ""
 };
 
 export default (state = initialState, action) => {
@@ -16,6 +18,16 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 showSidebar: action.payload
+            }
+        case SET_LOADING:
+            return {
+                ...state,
+                loading: action.payload
+            }
+        case SET_MESSAGE:
+            return {
+                ...state,
+                message: action.payload
             }
         default:
             return state;
