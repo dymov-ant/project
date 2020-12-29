@@ -1,6 +1,7 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import {useFormik} from "formik";
+import AlertList from "../../components/alert/Alert";
 
 
 const SignInPage = () => {
@@ -74,6 +75,7 @@ const SignInPage = () => {
                 }
                 <button type="submit" className="btn btn__primary btn__block">Войти</button>
             </form>
+            <AlertList/>
             <p className="subtext">Нет аккаунта? <Link to="/register">Регистрация!</Link></p>
         </div>
     )

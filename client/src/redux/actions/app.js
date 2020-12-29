@@ -1,4 +1,10 @@
-import {IS_MOBILE, SET_LOADING, SET_MESSAGE, SHOW_SIDEBAR} from "./types";
+import {
+    ADD_NOTIFICATION,
+    DELETE_NOTIFICATION,
+    IS_MOBILE,
+    SET_LOADING,
+    SHOW_SIDEBAR
+} from "./types";
 
 export const setIsMobile = isMobile => ({
     type: IS_MOBILE,
@@ -15,7 +21,12 @@ export const setLoading = loading => ({
     payload: loading
 });
 
-export const setMessage = message => ({
-   type: SET_MESSAGE,
-   payload: message
+export const addNotification = notification => ({
+    type: ADD_NOTIFICATION,
+    payload: notification
+});
+
+export const deleteNotification = id => ({
+    type: DELETE_NOTIFICATION,
+    payload: id
 });

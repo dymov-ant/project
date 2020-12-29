@@ -1,4 +1,4 @@
-import {SET_CURRENT_USER, SET_ERRORS} from "../actions/types";
+import {SET_CURRENT_USER} from "../actions/types";
 
 const initialState = {
     isAuthenticated: false,
@@ -13,11 +13,6 @@ export default (state = initialState, action) => {
                 ...state,
                 isAuthenticated: Object.keys(action.payload).length !== 0,
                 user: action.payload
-            }
-        case SET_ERRORS:
-            return {
-                ...state,
-                errors: action.payload
             }
         default:
             return state;

@@ -1,11 +1,6 @@
-import {SET_CURRENT_USER, SET_ERRORS} from "./types";
-import {setLoading, setMessage} from "./app";
+import {SET_CURRENT_USER} from "./types";
+import {addNotification, setLoading} from "./app";
 import {authAPI} from "../../services/api";
-
-export const setErrors = errors => ({
-    type: SET_ERRORS,
-    payload: errors
-});
 
 export const SetCurrentUser = user => ({
     type: SET_CURRENT_USER,
@@ -17,6 +12,11 @@ export const register = (userData, history) => async dispatch => {
         dispatch(setLoading(true));
         const response = await authAPI.register(userData);
         if (response.status === 201) {
+            dispatch(addNotification({
+                id: `f${(~~(Math.random()*1e8)).toString(16)}`,
+                body: response.data.message,
+                type: "success"
+            }));
             history.push("/login");
         }
         dispatch(setLoading(false));
@@ -24,9 +24,17 @@ export const register = (userData, history) => async dispatch => {
         const response = e.response;
         if (response.status === 400) {
             if (response.data.errors) {
-                dispatch(setErrors(response.data.errors));
+                response.data.errors.map(e => dispatch(addNotification({
+                    id: `f${(~~(Math.random()*1e8)).toString(16)}`,
+                    body: e.msg,
+                    type: "danger"
+                })));
             } else {
-                dispatch(setMessage(response.data.message));
+                dispatch(addNotification({
+                    id: `f${(~~(Math.random()*1e8)).toString(16)}`,
+                    body: response.data.message,
+                    type: "danger"
+                }));
             }
         }
         dispatch(setLoading(false));

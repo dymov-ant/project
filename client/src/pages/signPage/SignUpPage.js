@@ -3,15 +3,16 @@ import {Link, useHistory} from "react-router-dom";
 import {connect} from "react-redux";
 import {useFormik} from "formik";
 import {register} from "../../redux/actions/auth";
+import AlertList from "../../components/alert/Alert";
 
-const SignUpPage = ({authErrors, appMessage, register}) => {
+const SignUpPage = ({loading, register}) => {
 
     const validate = values => {
         const errors = {};
 
         if (!values.name) {
             errors.name = "Поле обязательно";
-        } else if (values.name.length < 5) {
+        } else if (values.name.length < 0) {
             errors.name = "Минимальная длина имени и фамилии 5 символов";
         }
 
@@ -23,7 +24,7 @@ const SignUpPage = ({authErrors, appMessage, register}) => {
 
         if (!values.password) {
             errors.password = "Поле обязательно";
-        } else if (values.password.length < 6) {
+        } else if (values.password.length < 0) {
             errors.password = "Минимальная длина пароля 6 символов";
         }
 
@@ -128,13 +129,10 @@ const SignUpPage = ({authErrors, appMessage, register}) => {
                             ? (<div className="subtext error mb-05">{formik.errors.birthdate}</div>)
                             : null
                     }
-                    <button className="btn btn__primary btn__block mb-05" type="submit">Регистрация</button>
-                    {
-                        authErrors.length !== 0
-                            ? authErrors.map(e => <div className="subtext error mb-05">{e.msg}</div>)
-                            : appMessage && <div className="subtext error mb-05">{appMessage}</div>
-                    }
+                    <button className="btn btn__primary btn__block mb-05" type="submit" disabled={loading}>Регистрация
+                    </button>
                 </form>
+                <AlertList/>
                 <p className="subtext">Уже есть аккаунт? <Link to="/">Войти!</Link></p>
             </div>
         </div>
@@ -142,8 +140,7 @@ const SignUpPage = ({authErrors, appMessage, register}) => {
 }
 
 const mapStateToProps = state => ({
-    authErrors: state.auth.errors,
-    appMessage: state.app.message
+    loading: state.app.loading
 })
 
 export default connect(mapStateToProps, {register})(SignUpPage);

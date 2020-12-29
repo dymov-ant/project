@@ -1,9 +1,17 @@
-import {IS_MOBILE, SHOW_SIDEBAR, SET_LOADING, SET_MESSAGE} from "../actions/types";
+import {
+    IS_MOBILE,
+    SHOW_SIDEBAR,
+    SET_LOADING,
+    ADD_NOTIFICATION,
+    DELETE_NOTIFICATION
+} from "../actions/types";
 
 const initialState = {
     isMobile: false,
     showSidebar: true,
     loading: false,
+    error: false,
+    notifications: [],
     message: ""
 };
 
@@ -24,10 +32,19 @@ export default (state = initialState, action) => {
                 ...state,
                 loading: action.payload
             }
-        case SET_MESSAGE:
+        case ADD_NOTIFICATION:
             return {
                 ...state,
-                message: action.payload
+                notifications: [...state.notifications, action.payload]
+            }
+        case DELETE_NOTIFICATION:
+            const index = state.notifications.findIndex(item => item.id === action.payload);
+            return {
+                ...state,
+                notifications: [
+                    ...state.notifications.slice(0, index),
+                    ...state.notifications.slice(index + 1)
+                ]
             }
         default:
             return state;

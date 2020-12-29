@@ -13,7 +13,7 @@ const api = axios.create({
 export const authAPI = {
     register(userData) {
         return api.post("auth/register", userData)
-            .then(response => response.data)
+            // .then(response => response.data)
     },
     login(userData) {
         return api.post("auth/login", userData)
