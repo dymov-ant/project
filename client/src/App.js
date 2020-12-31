@@ -1,15 +1,31 @@
 import React, {useEffect} from "react";
 import {connect} from "react-redux";
+import jwtDecode from "jwt-decode";
 import {CSSTransition} from "react-transition-group";
 import Header from "./components/header/Header";
 import Sidebar from "./components/sidebar/Sidebar";
 import {useRoutes} from "./useRoutes";
 import {setIsMobile, setShowSidebar} from "./redux/actions/app";
+import setAuthToken from "./services/setAuthToken";
+import {logout, setCurrentUser} from "./redux/actions/auth";
 import "./app.sass";
 
-const App = ({isMobile, showSidebar, setIsMobile, setShowSidebar}) => {
-    const isAuth = false;
-    const routes = useRoutes(isAuth);
+const App = ({isMobile, showSidebar, setIsMobile, setShowSidebar, isAuthenticated, setCurrentUser, logout}) => {
+
+    if (localStorage.access_token) {
+        const {access_token} = localStorage;
+        setAuthToken(access_token);
+        const decoded = jwtDecode(access_token);
+        setCurrentUser(decoded);
+        const currentTime = Date.now() / 1000;
+        if (decoded.exp < currentTime) {
+            logout();
+            window.location.href = "/login"
+        }
+    }
+
+    // const isAuth = false;
+    const routes = useRoutes(isAuthenticated);
 
     const updateViewState = () => {
         if (!isMobile && document.documentElement.clientWidth <= 768) {
@@ -29,9 +45,9 @@ const App = ({isMobile, showSidebar, setIsMobile, setShowSidebar}) => {
 
     return (
         <div className={isMobile && showSidebar ? "app shadow" : "app"}>
-            <Header isAuth={isAuth}/>
+            <Header isAuth={isAuthenticated}/>
                 {
-                    isAuth
+                    isAuthenticated
                         ? <div className="container">
                             <div className="app_wrapper">
                                 <CSSTransition
@@ -57,7 +73,8 @@ const App = ({isMobile, showSidebar, setIsMobile, setShowSidebar}) => {
 
 const mapStateToProps = state => ({
     isMobile: state.app.isMobile,
-    showSidebar: state.app.showSidebar
+    showSidebar: state.app.showSidebar,
+    isAuthenticated: state.auth.isAuthenticated
 });
 
-export default connect(mapStateToProps, {setIsMobile, setShowSidebar})(App);
+export default connect(mapStateToProps, {setIsMobile, setShowSidebar, setCurrentUser, logout})(App);

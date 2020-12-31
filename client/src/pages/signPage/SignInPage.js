@@ -1,10 +1,12 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import {useFormik} from "formik";
+import {connect} from "react-redux";
 import AlertList from "../../components/alert/Alert";
+import {login} from "../../redux/actions/auth";
 
 
-const SignInPage = () => {
+const SignInPage = ({loading, login}) => {
 
     const validate = values => {
         const errors = {};
@@ -28,7 +30,7 @@ const SignInPage = () => {
         },
         validate,
         onSubmit: values => {
-            alert(JSON.stringify(values));
+            login(values);
         }
     })
 
@@ -73,7 +75,7 @@ const SignInPage = () => {
                         ? (<div className="subtext error mb-05">{formik.errors.password}</div>)
                         : null
                 }
-                <button type="submit" className="btn btn__primary btn__block">Войти</button>
+                <button type="submit" className="btn btn__primary btn__block" disabled={loading}>Войти</button>
             </form>
             <AlertList/>
             <p className="subtext">Нет аккаунта? <Link to="/register">Регистрация!</Link></p>
@@ -81,4 +83,8 @@ const SignInPage = () => {
     )
 }
 
-export default SignInPage;
+const mapStateToProps = state => ({
+    loading: state.app.loading
+});
+
+export default connect(mapStateToProps, {login})(SignInPage);

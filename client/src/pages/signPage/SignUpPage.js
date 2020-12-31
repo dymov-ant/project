@@ -3,7 +3,6 @@ import {Link, useHistory} from "react-router-dom";
 import {connect} from "react-redux";
 import {useFormik} from "formik";
 import {register} from "../../redux/actions/auth";
-import AlertList from "../../components/alert/Alert";
 
 const SignUpPage = ({loading, register}) => {
 
@@ -132,7 +131,7 @@ const SignUpPage = ({loading, register}) => {
                     <button className="btn btn__primary btn__block mb-05" type="submit" disabled={loading}>Регистрация
                     </button>
                 </form>
-                <AlertList/>
+                {/*<AlertList/>*/}
                 <p className="subtext">Уже есть аккаунт? <Link to="/">Войти!</Link></p>
             </div>
         </div>
@@ -141,6 +140,6 @@ const SignUpPage = ({loading, register}) => {
 
 const mapStateToProps = state => ({
     loading: state.app.loading
-})
+});
 
 export default connect(mapStateToProps, {register})(SignUpPage);

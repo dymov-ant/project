@@ -4,12 +4,15 @@ import {BrowserRouter} from 'react-router-dom';
 import {Provider} from "react-redux";
 import store from "./redux/store";
 import App from './App';
+import AlertList from "./components/alert/Alert";
 
 ReactDOM.render(
     <React.StrictMode>
         <Provider store={store}>
             <BrowserRouter>
-                <App/>
+                <AlertList>
+                    <App/>
+                </AlertList>
             </BrowserRouter>
         </Provider>
     </React.StrictMode>,

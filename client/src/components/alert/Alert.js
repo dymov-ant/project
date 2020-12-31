@@ -7,7 +7,7 @@ const Alert = ({id, type, body, handleDelete}) => {
     useEffect(() => {
         const timeout = setTimeout(() => {
             handleDelete(id);
-        }, 4000);
+        }, 5000);
         return () => clearTimeout(timeout);
     });
 
@@ -19,17 +19,30 @@ const Alert = ({id, type, body, handleDelete}) => {
     )
 }
 
-const AlertList = ({notifications, deleteNotification}) => {
+const AlertList = ({notifications, deleteNotification, children}) => {
 
     const handleDelete = id => {
         deleteNotification(id);
     }
 
     return (
-        <div>
-            {notifications.map(
-                item => <Alert key={item.id} id={item.id} type={item.type} body={item.body} handleDelete={handleDelete}/>)}
-        </div>
+        <>
+            {children}
+            <div className="alert-list">
+                {
+                    notifications.map(
+                        item => <Alert
+                            key={item.id}
+                            id={item.id}
+                            type={item.type}
+                            body={item.body}
+                            handleDelete={handleDelete}
+                        />)
+                }
+            </div>
+        </>
+
+
     )
 }
 

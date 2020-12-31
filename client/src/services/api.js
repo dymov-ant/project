@@ -17,6 +17,5 @@ export const authAPI = {
     },
     login(userData) {
         return api.post("auth/login", userData)
-            .then(response => response.data)
     }
 }
