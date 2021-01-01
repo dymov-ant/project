@@ -16,6 +16,16 @@ router.get("/", async (req, res) => {
     } catch (e) {
         res.status(500).json({message: 'Что-то пошло не так, попробуйте ещё раз!'});
     }
-})
+});
+
+router.put("/", async (req, res) => {
+    try {
+        const {id, ...newProfile} = req.body;
+        await User.findOneAndUpdate({_id: id}, newProfile);
+        res.json({message: "Профиль обновлен"});
+    } catch (e) {
+        res.status(500).json({message: 'Что-то пошло не так, попробуйте ещё раз!'});
+    }
+});
 
 module.exports = router;

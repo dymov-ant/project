@@ -7,3 +7,4 @@ export const DELETE_NOTIFICATION = "app/DELETE_NOTIFICATION";
 export const SET_CURRENT_USER = "auth/SET_CURRENT_USER";
 
 export const SET_PROFILE = "profile/SET_PROFILE";
+export const UPDATE_PROFILE = "profile/UPDATE_PROFILE";

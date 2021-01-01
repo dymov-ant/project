@@ -1,11 +1,8 @@
 import axios from "axios";
 
-// const token = localStorage.getItem("access_token");
-
 const api = axios.create({
     baseURL: "/api/v1/",
     headers: {
-        // "Authorization": "Bearer " + token,
         "Content-Type": "application/JSON"
     }
 });
@@ -21,10 +18,9 @@ export const authAPI = {
 
 export const profileAPI = {
     getProfile(id) {
-        return api.get("profile", {
-            params: {
-                id
-            }
-        });
+        return api.get("profile", {params: {id}});
+    },
+    updateProfile(profileData) {
+        return api.put("profile", profileData);
     }
-}
+};
