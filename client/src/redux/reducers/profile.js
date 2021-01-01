@@ -1,20 +1,19 @@
-import {SET_PROFILE} from "../actions/types";
+import {SET_PROFILE, SET_USER_PHOTO} from "../actions/types";
 
 
 const initialState = {
     profile: {
-        _id: null,
         email: null,
         name: null,
         birthDate: null,
-        photo: null,
         status: null,
         city: null,
         maritalStatus: null,
         education: null,
         job: null,
-        posts: []
-    }
+    },
+    photo: null,
+    posts: []
 }
 
 export default (state = initialState, action) => {
@@ -22,7 +21,13 @@ export default (state = initialState, action) => {
         case SET_PROFILE:
             return {
                 ...state,
-                profile: action.payload
+                profile: action.payload.profile,
+                posts: action.payload.posts
+            }
+        case SET_USER_PHOTO:
+            return {
+                ...state,
+                photo: action.payload
             }
         default:
             return state;

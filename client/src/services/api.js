@@ -22,5 +22,12 @@ export const profileAPI = {
     },
     updateProfile(profileData) {
         return api.put("profile", profileData);
+    },
+    updateUserPhoto(file, userId) {
+        return api.post("profile/photo/" + userId, file, {
+            headers: {
+                "Content-Type":"multipart/form-data"
+            }
+        });
     }
 };

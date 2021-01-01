@@ -1,9 +1,11 @@
 const express = require("express");
 const config = require("config");
 const mongoose = require("mongoose");
+const path = require("path");
 
 const app = express();
 
+app.use(express.static(path.join(__dirname, "content")));
 app.use(express.json({extended: true}));
 
 app.use("/api/v1/auth", require("./routes/auth.routes"));

@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 import Wall from "../../components/wall/Wall";
 import {getProfile} from "../../redux/actions/profile";
 
-const ProfilePage = ({id, getProfile, profile}) => {
+const ProfilePage = ({id, getProfile, photo, profile, posts}) => {
 
     useEffect(() => {
         getProfile(id);
@@ -17,7 +17,7 @@ const ProfilePage = ({id, getProfile, profile}) => {
             <div className="profile_wrapper">
                 <div className="profile_photo">
                         <img
-                            src={src}
+                            src={photo || src}
                             alt="avatar"
                             className="card_img"
                         />
@@ -49,14 +49,16 @@ const ProfilePage = ({id, getProfile, profile}) => {
                     </div>
                 </div>
             </div>
-            <Wall data={profile.posts}/>
+            <Wall data={posts}/>
         </div>
     )
 }
 
 const mapStateToProps = state => ({
     id: state.auth.user.userId,
-    profile: state.profile.profile
+    photo: state.profile.photo,
+    profile: state.profile.profile,
+    posts: state.profile.posts
 });
 
 export default connect(mapStateToProps, {getProfile})(ProfilePage);
