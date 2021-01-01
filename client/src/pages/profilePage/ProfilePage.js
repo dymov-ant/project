@@ -1,8 +1,15 @@
-import React from "react";
-import {NavLink} from "react-router-dom";
+import React, {useEffect} from "react";
+import {connect} from "react-redux";
+import {Link} from "react-router-dom";
 import Wall from "../../components/wall/Wall";
+import {getProfile} from "../../redux/actions/profile";
 
-const ProfilePage = () => {
+const ProfilePage = ({id, getProfile, profile}) => {
+
+    useEffect(() => {
+        getProfile(id);
+    }, [id])
+
     const src = "https://img4.goodfon.ru/original/2048x1344/6/55/kot-sneg-zima-1.jpg";
     // const src = "http://archilab.online/images/1/123.jpg";
     return (
@@ -14,34 +21,42 @@ const ProfilePage = () => {
                             alt="avatar"
                             className="card_img"
                         />
-                        <button className="btn btn__light btn__small btn__block">Сменить</button>
+                        {/*<button className="btn btn__light btn__small btn__block">Сменить</button>*/}
                 </div>
                 <div className="profile_info">
-                    <h1 className="title profile_title">Антон Дымов</h1>
+                    <h1 className="title profile_title">{profile.name || "Нет данных"}</h1>
                     <div className="profile_status">
                         <p className="subtext">
-                            Тут крутая цитата типо статус
+                            {profile.status || "Кликните два раза для изменения статуса"}
                         </p>
                     </div>
                     <div>
                         <p className="subtext profile_subtext">
-                            Дата рождения: <NavLink to="/settings">31.08.1992</NavLink>
+                            Дата рождения: <Link to="/friends">{profile.birthDate ? (new Date(profile.birthDate).toLocaleDateString()) : "Нет данных"}</Link>
                         </p>
                         <p className="subtext profile_subtext">
-                            Семейное положение: <NavLink to="/settings">женат</NavLink>
+                            Город: <Link to="/friends">{profile.city || "Нет данных"}</Link>
                         </p>
                         <p className="subtext profile_subtext">
-                            Место работы: <NavLink to="/settings">ООО "Фирма"</NavLink>
+                            Семейное положение: <Link to="/friends">{profile.maritalStatus || "Нет данных"}</Link>
                         </p>
                         <p className="subtext profile_subtext">
-                            Веб сайт: <NavLink to="/settings">http://localhost</NavLink>
+                            Образование: <Link to="/friends">{profile.education || "Нет данных"}</Link>
+                        </p>
+                        <p className="subtext profile_subtext">
+                            Место работы: <Link to="/friends">{profile.job || "Нет данных"}</Link>
                         </p>
                     </div>
                 </div>
             </div>
-            <Wall/>
+            <Wall data={profile.posts}/>
         </div>
     )
 }
 
-export default ProfilePage;
+const mapStateToProps = state => ({
+    id: state.auth.user.userId,
+    profile: state.profile.profile
+});
+
+export default connect(mapStateToProps, {getProfile})(ProfilePage);

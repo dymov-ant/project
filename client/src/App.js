@@ -74,7 +74,7 @@ const App = ({isMobile, showSidebar, setIsMobile, setShowSidebar, isAuthenticate
 const mapStateToProps = state => ({
     isMobile: state.app.isMobile,
     showSidebar: state.app.showSidebar,
-    isAuthenticated: state.auth.isAuthenticated
+    isAuthenticated: state.auth.isAuthenticated,
 });
 
 export default connect(mapStateToProps, {setIsMobile, setShowSidebar, setCurrentUser, logout})(App);
