@@ -16,7 +16,7 @@ const initialState = {
     posts: []
 }
 
-export default (state = initialState, action) => {
+const profileReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_PROFILE:
             return {
@@ -33,3 +33,5 @@ export default (state = initialState, action) => {
             return state;
     }
 }
+
+export default profileReducer;

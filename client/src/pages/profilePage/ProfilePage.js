@@ -3,25 +3,27 @@ import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import Wall from "../../components/wall/Wall";
 import {getProfile} from "../../redux/actions/profile";
+import Spinner from "../../components/spinner/Spinner";
 
-const ProfilePage = ({id, getProfile, photo, profile, posts}) => {
+const ProfilePage = ({loading, id, getProfile, photo, profile, posts}) => {
 
     useEffect(() => {
         getProfile(id);
-    }, [id])
+    }, [id, getProfile])
 
     const src = "https://img4.goodfon.ru/original/2048x1344/6/55/kot-sneg-zima-1.jpg";
-    // const src = "http://archilab.online/images/1/123.jpg";
+    if (loading) {
+        return <Spinner/>
+    }
     return (
         <div className="profile">
             <div className="profile_wrapper">
                 <div className="profile_photo">
-                        <img
-                            src={photo || src}
-                            alt="avatar"
-                            className="card_img"
-                        />
-                        {/*<button className="btn btn__light btn__small btn__block">Сменить</button>*/}
+                    <img
+                        src={photo || src}
+                        alt="avatar"
+                        className="card_img"
+                    />
                 </div>
                 <div className="profile_info">
                     <h1 className="title profile_title">{profile.name || "Нет данных"}</h1>
@@ -32,7 +34,8 @@ const ProfilePage = ({id, getProfile, photo, profile, posts}) => {
                     </div>
                     <div>
                         <p className="subtext profile_subtext">
-                            Дата рождения: <Link to="/friends">{profile.birthDate ? (new Date(profile.birthDate).toLocaleDateString()) : "Нет данных"}</Link>
+                            Дата рождения: <Link
+                            to="/friends">{profile.birthDate ? (new Date(profile.birthDate).toLocaleDateString()) : "Нет данных"}</Link>
                         </p>
                         <p className="subtext profile_subtext">
                             Город: <Link to="/friends">{profile.city || "Нет данных"}</Link>
@@ -55,6 +58,7 @@ const ProfilePage = ({id, getProfile, photo, profile, posts}) => {
 }
 
 const mapStateToProps = state => ({
+    loading: state.app.loading,
     id: state.auth.user.userId,
     photo: state.profile.photo,
     profile: state.profile.profile,

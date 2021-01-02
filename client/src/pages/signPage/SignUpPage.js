@@ -11,8 +11,10 @@ const SignUpPage = ({loading, register}) => {
 
         if (!values.name) {
             errors.name = "Поле обязательно";
-        } else if (values.name.length < 0) {
+        } else if (values.name.length < 5) {
             errors.name = "Минимальная длина имени и фамилии 5 символов";
+        } else if (values.name.length > 50) {
+            errors.name = "Максимальная длина имени и фамилии 50 символов";
         }
 
         if (!values.email) {
@@ -23,7 +25,7 @@ const SignUpPage = ({loading, register}) => {
 
         if (!values.password) {
             errors.password = "Поле обязательно";
-        } else if (values.password.length < 0) {
+        } else if (values.password.length < 6) {
             errors.password = "Минимальная длина пароля 6 символов";
         }
 

@@ -20,14 +20,15 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.put("/", async (req, res) => {
+router.put("/:userId/edit", async (req, res) => {
     try {
-        const {id, ...newProfile} = req.body;
+        const newProfile = req.body;
+        console.log(req.body)
         const candidate = await User.findOne({email: newProfile.email});
-        if (candidate && candidate._id.toString() !== id) {
+        if (candidate && candidate._id.toString() !== req.params.userId) {
             return res.status(400).json({message: "Такой email уже используется"});
         }
-        await User.findOneAndUpdate({_id: id}, newProfile);
+        await User.findOneAndUpdate({_id: req.params.userId}, newProfile);
         res.json({message: "Профиль обновлен"});
     } catch (e) {
         res.status(500).json({message: 'Что-то пошло не так, попробуйте ещё раз!'});
@@ -43,7 +44,7 @@ const storage = multer.diskStorage({
 const upload = multer({storage: storage});
 
 router.post(
-    "/photo/:userId",
+    "/:userId/edit/photo",
     upload.single("photo"),
     async (req, res) => {
         try {

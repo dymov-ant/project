@@ -15,7 +15,7 @@ const initialState = {
     message: ""
 };
 
-export default (state = initialState, action) => {
+const appReducer = (state = initialState, action) => {
     switch (action.type) {
         case IS_MOBILE:
             return {
@@ -50,3 +50,5 @@ export default (state = initialState, action) => {
             return state;
     }
 }
+
+export default appReducer;

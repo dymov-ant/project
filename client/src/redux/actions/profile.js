@@ -27,11 +27,12 @@ export const getProfile = id => async dispatch => {
     }
 };
 
-export const updateProfile = profileData => async dispatch => {
+export const updateProfile = (userId, profileData) => async dispatch => {
     try {
         dispatch(setLoading(true));
-        const response = await profileAPI.updateProfile(profileData);
+        const response = await profileAPI.updateProfile(userId, profileData);
         if (response.status === 200) {
+            dispatch(getProfile(userId));
             dispatch(addNotification({
                 id: `f${(~~(Math.random() * 1e8)).toString(16)}`,
                 body: response.data.message,

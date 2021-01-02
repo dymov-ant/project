@@ -20,11 +20,11 @@ export const profileAPI = {
     getProfile(id) {
         return api.get("profile", {params: {id}});
     },
-    updateProfile(profileData) {
-        return api.put("profile", profileData);
+    updateProfile(userId, profileData) {
+        return api.put(`profile/${userId}/edit`, profileData);
     },
     updateUserPhoto(file, userId) {
-        return api.post("profile/photo/" + userId, file, {
+        return api.post(`profile/${userId}/edit/photo`, file, {
             headers: {
                 "Content-Type":"multipart/form-data"
             }
