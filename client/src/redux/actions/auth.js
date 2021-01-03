@@ -10,32 +10,6 @@ export const setCurrentUser = user => ({
     payload: user,
 });
 
-// const isErrors = (e, dispatch) => {
-//     const response = e.response;
-//     if (response.status === 400) {
-//         if (response.data.errors) {
-//             response.data.errors.map(e => dispatch(addNotification({
-//                 id: `f${(~~(Math.random()*1e8)).toString(16)}`,
-//                 body: e.msg,
-//                 type: "danger"
-//             })));
-//         } else {
-//             dispatch(addNotification({
-//                 id: `f${(~~(Math.random()*1e8)).toString(16)}`,
-//                 body: response.data.message,
-//                 type: "danger"
-//             }));
-//         }
-//     } else {
-//         dispatch(addNotification({
-//             id: `f${(~~(Math.random()*1e8)).toString(16)}`,
-//             body: response.data.message,
-//             type: "danger"
-//         }));
-//     }
-//     dispatch(setLoading(false));
-// }
-
 export const register = (userData, history) => async dispatch => {
     try {
         dispatch(setLoading(true));
@@ -51,23 +25,6 @@ export const register = (userData, history) => async dispatch => {
         dispatch(setLoading(false));
     } catch (e) {
         isErrors(e, dispatch);
-        // const response = e.response;
-        // if (response.status === 400) {
-        //     if (response.data.errors) {
-        //         response.data.errors.map(e => dispatch(addNotification({
-        //             id: `f${(~~(Math.random()*1e8)).toString(16)}`,
-        //             body: e.msg,
-        //             type: "danger"
-        //         })));
-        //     } else {
-        //         dispatch(addNotification({
-        //             id: `f${(~~(Math.random()*1e8)).toString(16)}`,
-        //             body: response.data.message,
-        //             type: "danger"
-        //         }));
-        //     }
-        // }
-        // dispatch(setLoading(false));
     }
 }
 

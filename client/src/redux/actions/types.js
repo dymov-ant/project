@@ -3,6 +3,7 @@ export const SHOW_SIDEBAR = "app/SHOW_SIDEBAR";
 export const SET_LOADING = "app/SET_LOADING";
 export const ADD_NOTIFICATION = "app/ADD_NOTIFICATION";
 export const DELETE_NOTIFICATION = "app/DELETE_NOTIFICATION";
+export const SET_NOT_FOUND = "app/SET_NOT_FOUND";
 
 export const SET_CURRENT_USER = "auth/SET_CURRENT_USER";
 

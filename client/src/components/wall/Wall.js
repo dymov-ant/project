@@ -1,4 +1,5 @@
 import React from "react";
+import {connect} from "react-redux";
 import Post from "../post/Post";
 
 // const data = [
@@ -37,14 +38,16 @@ import Post from "../post/Post";
 //     }
 // ];
 
-const Wall = ({data}) => {
+const Wall = ({data, userId, activeId}) => {
 
     return (
         <div className="wall">
-            <div className="wall_new-post">
-                <textarea className="form-control" rows={3} placeholder="О чём думаете?"/>
-                <button className="btn btn__primary ">Добавить</button>
-            </div>
+            {userId === activeId
+                ? <div className="wall_new-post">
+                    <textarea className="form-control" rows={3} placeholder="О чём думаете?"/>
+                    <button className="btn btn__primary ">Добавить</button>
+                </div>
+                : null}
             <div className="wall_posts">
                 {
                     data.length !== 0
@@ -64,4 +67,9 @@ const Wall = ({data}) => {
     )
 }
 
-export default Wall;
+const mapStateToProps = state => ({
+    userId: state.auth.user.userId
+    // activeId: state.profile.profile.id
+});
+
+export default connect(mapStateToProps)(Wall);

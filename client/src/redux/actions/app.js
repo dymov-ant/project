@@ -2,7 +2,7 @@ import {
     ADD_NOTIFICATION,
     DELETE_NOTIFICATION,
     IS_MOBILE,
-    SET_LOADING,
+    SET_LOADING, SET_NOT_FOUND,
     SHOW_SIDEBAR
 } from "./types";
 
@@ -29,4 +29,9 @@ export const addNotification = notification => ({
 export const deleteNotification = id => ({
     type: DELETE_NOTIFICATION,
     payload: id
+});
+
+export const setNotFound = payload => ({
+    type: SET_NOT_FOUND,
+    payload
 });

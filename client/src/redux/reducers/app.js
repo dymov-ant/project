@@ -3,7 +3,7 @@ import {
     SHOW_SIDEBAR,
     SET_LOADING,
     ADD_NOTIFICATION,
-    DELETE_NOTIFICATION
+    DELETE_NOTIFICATION, SET_NOT_FOUND
 } from "../actions/types";
 
 const initialState = {
@@ -12,7 +12,8 @@ const initialState = {
     loading: false,
     error: false,
     notifications: [],
-    message: ""
+    message: "",
+    notFound: false
 };
 
 const appReducer = (state = initialState, action) => {
@@ -45,6 +46,11 @@ const appReducer = (state = initialState, action) => {
                     ...state.notifications.slice(0, index),
                     ...state.notifications.slice(index + 1)
                 ]
+            }
+        case SET_NOT_FOUND:
+            return {
+                ...state,
+                notFound: action.payload
             }
         default:
             return state;

@@ -1,18 +1,25 @@
 import React, {useEffect} from "react";
 import {connect} from "react-redux";
-import {Link} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import Wall from "../../components/wall/Wall";
 import {getProfile, updateProfileStatus} from "../../redux/actions/profile";
 import Spinner from "../../components/spinner/Spinner";
 import ProfileStatus from "../../components/profileStatus/ProfileStatus";
+import NotFoundPage from "../404/404";
 
-const ProfilePage = ({loading, id, getProfile, photo, profile, posts}) => {
+const ProfilePage = ({loading, id, getProfile, photo, profile, posts, isNotFound}) => {
+
+    const {userId} = useParams();
+    const activeId = userId || id;
 
     useEffect(() => {
-        getProfile(id);
-    }, [id, getProfile])
+        getProfile(activeId);
+    }, [activeId, getProfile])
 
     const src = "https://img4.goodfon.ru/original/2048x1344/6/55/kot-sneg-zima-1.jpg";
+    if (isNotFound) {
+        return <NotFoundPage/>
+    }
     if (loading) {
         return <Spinner/>
     }
@@ -31,7 +38,7 @@ const ProfilePage = ({loading, id, getProfile, photo, profile, posts}) => {
                     <ProfileStatus
                         body={profile.status}
                         updateProfileStatus={updateProfileStatus}
-                        userId={id}
+                        activeId={activeId}
                     />
                     <div>
                         <p className="subtext profile_subtext">
@@ -63,7 +70,8 @@ const mapStateToProps = state => ({
     id: state.auth.user.userId,
     photo: state.profile.photo,
     profile: state.profile.profile,
-    posts: state.profile.posts
+    posts: state.profile.posts,
+    isNotFound: state.app.notFound
 });
 
 export default connect(mapStateToProps, {getProfile})(ProfilePage);

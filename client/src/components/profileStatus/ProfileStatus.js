@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import {connect} from "react-redux";
 import {updateProfileStatus} from "../../redux/actions/profile";
 
-const ProfileStatus = ({body, updateProfileStatus, userId, currentId}) => {
+const ProfileStatus = ({body, updateProfileStatus, activeId, userId}) => {
     const [editMode, setEditMode] = useState(false);
     const [status, setStatus] = useState(body);
     const [error, setError] = useState(false);
@@ -12,7 +12,7 @@ const ProfileStatus = ({body, updateProfileStatus, userId, currentId}) => {
     }, [body]);
 
     const activateEditMode = () => {
-        if (userId === currentId) {
+        if (activeId === userId) {
             setEditMode(true);
         }
     };
@@ -20,7 +20,7 @@ const ProfileStatus = ({body, updateProfileStatus, userId, currentId}) => {
     const deactivateEditMode = () => {
         setEditMode(false);
         setError(false);
-        updateProfileStatus(status, userId);
+        updateProfileStatus(status, activeId);
     };
 
     const onStatusChange = event => {
@@ -58,7 +58,7 @@ const ProfileStatus = ({body, updateProfileStatus, userId, currentId}) => {
 }
 
 const mapStateToProps = state => ({
-    currentId: state.auth.user.userId
+    userId: state.auth.user.userId
 });
 
 export default connect(mapStateToProps, {updateProfileStatus})(ProfileStatus);

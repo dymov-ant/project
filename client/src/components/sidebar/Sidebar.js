@@ -33,7 +33,7 @@ const Sidebar = ({isMobile, setShowSidebar}) => {
                     className="sidebar_item"
                     onClick={handleClickLink}
                 >
-                    <Link to="/"><i className="far fa-user-circle"/>Профиль</Link>
+                    <Link to="/profile"><i className="far fa-user-circle"/>Профиль</Link>
                 </li>
                 <li
                     className="sidebar_item"

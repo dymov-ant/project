@@ -1,6 +1,6 @@
 import {SET_PROFILE, SET_STATUS, SET_USER_PHOTO} from "./types";
 import {profileAPI} from "../../services/api";
-import {addNotification, setLoading} from "./app";
+import {addNotification, setLoading, setNotFound} from "./app";
 import {isErrors} from "../../services/isErrorsInActions";
 
 export const setProfile = data => ({
@@ -25,7 +25,10 @@ export const getProfile = id => async dispatch => {
         if (response.status === 200) {
             const {photo, posts, ...profile} = response.data;
             dispatch(setProfile({posts, profile}));
-            dispatch(setUserPhoto("http://localhost:5000/" + photo));
+            if (photo) {
+                dispatch(setUserPhoto("http://localhost:5000/" + photo));
+            }
+            dispatch(setNotFound(false));
         }
         dispatch(setLoading(false));
     } catch (e) {

@@ -13,10 +13,10 @@ router.get("/", async (req, res) => {
     try {
         const profile = await User.findById(req.query.id);
         if (!profile) {
-            return res.status(400).json({message: "Профиль не найден!"});
+            return res.status(404).json({message: "Профиль не найден!"});
         }
-        const {email, name, photo, status, birthDate, city, maritalStatus, education, job, posts} = profile;
-        res.json({email, name, photo, status, birthDate, city, maritalStatus, education, job, posts});
+        const {_id, email, name, photo, status, birthDate, city, maritalStatus, education, job, posts} = profile;
+        res.json({id: _id, email, name, photo, status, birthDate, city, maritalStatus, education, job, posts});
     } catch (e) {
         res.status(500).json({message: 'Что-то пошло не так, попробуйте ещё раз!'});
     }
@@ -127,7 +127,6 @@ router.post(
     async (req, res) => {
         try {
             const {status} = req.body;
-            console.log(status)
             if (status.length > 40) {
                 return res.status(400).json({message: "Максимальная длина статуса 40 символов"});
             }
