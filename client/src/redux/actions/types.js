@@ -8,3 +8,4 @@ export const SET_CURRENT_USER = "auth/SET_CURRENT_USER";
 
 export const SET_PROFILE = "profile/SET_PROFILE";
 export const SET_USER_PHOTO = "profile/SET_USER_PHOTO";
+export const SET_STATUS = "profile/SET_STATUS";

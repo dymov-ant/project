@@ -1,4 +1,4 @@
-import {SET_PROFILE, SET_USER_PHOTO} from "./types";
+import {SET_PROFILE, SET_STATUS, SET_USER_PHOTO} from "./types";
 import {profileAPI} from "../../services/api";
 import {addNotification, setLoading} from "./app";
 import {isErrors} from "../../services/isErrorsInActions";
@@ -11,6 +11,11 @@ export const setProfile = data => ({
 export const setUserPhoto = photoUrl => ({
     type: SET_USER_PHOTO,
     payload: photoUrl
+});
+
+export const setStatus = status => ({
+    type: SET_STATUS,
+    payload: status
 });
 
 export const getProfile = id => async dispatch => {
@@ -78,4 +83,17 @@ export const updatePassword = (passwords, userId) => async dispatch => {
     } catch (e) {
         isErrors(e, dispatch);
     }
-}
+};
+
+export const updateProfileStatus = (status, userId) => async dispatch => {
+    try {
+        dispatch(setLoading(true));
+        const response = await profileAPI.updateStatus(status, userId);
+        if (response.status === 200) {
+            dispatch(getProfile(userId));
+        }
+        dispatch(setLoading(false));
+    } catch (e) {
+        isErrors(e, dispatch);
+    }
+};

@@ -1,4 +1,4 @@
-import {SET_PROFILE, SET_USER_PHOTO} from "../actions/types";
+import {SET_PROFILE, SET_STATUS, SET_USER_PHOTO} from "../actions/types";
 
 
 const initialState = {
@@ -23,6 +23,11 @@ const profileReducer = (state = initialState, action) => {
                 ...state,
                 profile: action.payload.profile,
                 posts: action.payload.posts
+            }
+        case SET_STATUS:
+            return {
+                ...state,
+                status: action.payload
             }
         case SET_USER_PHOTO:
             return {

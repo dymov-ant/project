@@ -99,7 +99,7 @@ router.post(
             if (!errors.isEmpty()) {
                 return res.status(400).json({
                     errors: errors.array(),
-                    message: "Некорректные данные при регистрации!"
+                    message: "Некорректные данные"
                 });
             }
 
@@ -116,6 +116,23 @@ router.post(
             );
 
             res.json({message: "Пароль изменен"});
+        } catch (e) {
+            res.status(500).json({message: 'Что-то пошло не так, попробуйте ещё раз!'});
+        }
+    });
+
+
+router.post(
+    "/:userId/edit/status",
+    async (req, res) => {
+        try {
+            const {status} = req.body;
+            console.log(status)
+            if (status.length > 40) {
+                return res.status(400).json({message: "Максимальная длина статуса 40 символов"});
+            }
+            await User.findOneAndUpdate({_id: req.params.userId}, {status});
+            res.json({message: "Статус обновлен"});
         } catch (e) {
             res.status(500).json({message: 'Что-то пошло не так, попробуйте ещё раз!'});
         }

@@ -25,12 +25,13 @@ export const profileAPI = {
     },
     updateUserPhoto(file, userId) {
         return api.post(`profile/${userId}/edit/photo`, file, {
-            headers: {
-                "Content-Type":"multipart/form-data"
-            }
+            headers: {"Content-Type":"multipart/form-data"}
         });
     },
     updatePassword(passwords, userId) {
         return api.post(`profile/${userId}/edit/password`, passwords);
+    },
+    updateStatus(status, userId) {
+        return api.post(`/profile/${userId}/edit/status`, {status});
     }
 };

@@ -2,8 +2,9 @@ import React, {useEffect} from "react";
 import {connect} from "react-redux";
 import {Link} from "react-router-dom";
 import Wall from "../../components/wall/Wall";
-import {getProfile} from "../../redux/actions/profile";
+import {getProfile, updateProfileStatus} from "../../redux/actions/profile";
 import Spinner from "../../components/spinner/Spinner";
+import ProfileStatus from "../../components/profileStatus/ProfileStatus";
 
 const ProfilePage = ({loading, id, getProfile, photo, profile, posts}) => {
 
@@ -27,11 +28,11 @@ const ProfilePage = ({loading, id, getProfile, photo, profile, posts}) => {
                 </div>
                 <div className="profile_info">
                     <h1 className="title profile_title">{profile.name || "Нет данных"}</h1>
-                    <div className="profile_status">
-                        <p className="subtext">
-                            {profile.status || "Кликните два раза для изменения статуса"}
-                        </p>
-                    </div>
+                    <ProfileStatus
+                        body={profile.status}
+                        updateProfileStatus={updateProfileStatus}
+                        userId={id}
+                    />
                     <div>
                         <p className="subtext profile_subtext">
                             Дата рождения: <Link
