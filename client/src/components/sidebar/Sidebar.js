@@ -53,6 +53,12 @@ const Sidebar = ({isMobile, setShowSidebar}) => {
                 >
                     <Link to="/feed"><i className="fas fa-rss"/>Новости</Link>
                 </li>
+                <li
+                    className="sidebar_item"
+                    onClick={handleClickLink}
+                >
+                    <Link to="/settings"><i className="fas fa-cog"/>Настройки</Link>
+                </li>
             </ul>
         </nav>
     )
