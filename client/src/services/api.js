@@ -29,5 +29,8 @@ export const profileAPI = {
                 "Content-Type":"multipart/form-data"
             }
         });
+    },
+    updatePassword(passwords, userId) {
+        return api.post(`profile/${userId}/edit/password`, passwords);
     }
 };

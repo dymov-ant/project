@@ -1,6 +1,7 @@
 import {SET_PROFILE, SET_USER_PHOTO} from "./types";
 import {profileAPI} from "../../services/api";
 import {addNotification, setLoading} from "./app";
+import {isErrors} from "../../services/isErrorsInActions";
 
 export const setProfile = data => ({
     type: SET_PROFILE,
@@ -23,7 +24,7 @@ export const getProfile = id => async dispatch => {
         }
         dispatch(setLoading(false));
     } catch (e) {
-        dispatch(setLoading(false));
+        isErrors(e, dispatch);
     }
 };
 
@@ -41,15 +42,7 @@ export const updateProfile = (userId, profileData) => async dispatch => {
         }
         dispatch(setLoading(false));
     } catch (e) {
-        const response = e.response;
-        if (response.status === 400) {
-            dispatch(addNotification({
-                id: `f${(~~(Math.random() * 1e8)).toString(16)}`,
-                body: response.data.message,
-                type: "danger"
-            }));
-        }
-        dispatch(setLoading(false));
+        isErrors(e, dispatch);
     }
 };
 
@@ -66,14 +59,23 @@ export const updateUserPhoto = (file, id) => async dispatch => {
         }
         dispatch(setLoading(false));
     } catch (e) {
-        const response = e.response;
-        if (response.status === 400) {
+        isErrors(e, dispatch);
+    }
+}
+
+export const updatePassword = (passwords, userId) => async dispatch => {
+    try {
+        dispatch(setLoading(true));
+        const response = await profileAPI.updatePassword(passwords, userId);
+        if (response.status === 200) {
             dispatch(addNotification({
                 id: `f${(~~(Math.random() * 1e8)).toString(16)}`,
                 body: response.data.message,
-                type: "danger"
+                type: "success"
             }));
         }
         dispatch(setLoading(false));
+    } catch (e) {
+        isErrors(e, dispatch);
     }
 }
