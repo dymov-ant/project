@@ -73,12 +73,14 @@ router.post(
                 return res.status(400).json({message: "Ошибка при загрузке фотографии"});
             }
             const user = await User.findById(req.user.userId);
-            const oldPhoto = user.photo.split("/")[user.photo.split("/").length - 1];
-            fs.unlink(path.join("content", "photos", oldPhoto), err => {
-                if (err) {
-                    console.log(err);
-                }
-            });
+            if (user.photo) {
+                const oldPhoto = user.photo.split("/")[user.photo.split("/").length - 1];
+                fs.unlink(path.join("content", "photos", oldPhoto), err => {
+                    if (err) {
+                        console.log(err);
+                    }
+                });
+            }
 
             await User.findOneAndUpdate(
                 {_id: req.user.userId},

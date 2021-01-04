@@ -4,7 +4,7 @@ const schema = new Schema({
     email: {type: String, required: true, unique: true},
     password: {type: String, required: true},
     name: {type: String, required: true},
-    birthDate: {type: Date, required: true, default: Date.now},
+    birthDate: {type: Date, required: true},
     photo: {type: String, default: null},
     status: {type: String, default: null},
     city: {type: String, default: null},

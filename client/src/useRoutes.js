@@ -6,7 +6,7 @@ import FriendsPage from "./pages/FriendsPage";
 import MessagesPage from "./pages/MessagesPage";
 import FeedsPage from "./pages/FeedsPage";
 import ProfilePage from "./pages/profilePage/ProfilePage";
-import NotFoundPage from "./pages/404/404";
+// import NotFoundPage from "./pages/404/404";
 
 export const useRoutes = (isAuth) => {
     if (isAuth) {
@@ -43,9 +43,9 @@ export const useRoutes = (isAuth) => {
             <Route path="/register" exact>
                 <SignUpPage/>
             </Route>
-            <Route path="*" exact>
-                <NotFoundPage/>
-            </Route>
+            {/*<Route path="*" exact>*/}
+            {/*    <NotFoundPage/>*/}
+            {/*</Route>*/}
             <Redirect to="/login"/>
         </Switch>
     )
