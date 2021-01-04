@@ -13,7 +13,7 @@ app.use("/api/v1/profile", require("./routes/profile.routes"));
 
 async function start() {
     try {
-        await mongoose.connect(process.env.MONGODB_URI || config.get("mongoUri"), {
+        await mongoose.connect(config.get("mongoUri"), {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useCreateIndex: true,

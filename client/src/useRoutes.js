@@ -6,7 +6,7 @@ import FriendsPage from "./pages/FriendsPage";
 import MessagesPage from "./pages/MessagesPage";
 import FeedsPage from "./pages/FeedsPage";
 import ProfilePage from "./pages/profilePage/ProfilePage";
-// import NotFoundPage from "./pages/404/404";
+import NotFoundPage from "./pages/404/404";
 
 export const useRoutes = (isAuth) => {
     if (isAuth) {
@@ -27,26 +27,23 @@ export const useRoutes = (isAuth) => {
                 <Route path="/profile/:userId?">
                     <ProfilePage/>
                 </Route>
-                <Redirect to="/profile"/>
-                {/*<Route path="*" exact>*/}
-                {/*    <NotFoundPage/>*/}
-                {/*</Route>*/}
+                <Redirect to="/profile:userId?"/>
             </Switch>
         )
     }
 
     return (
         <Switch>
-            <Route path="/login" exact>
+            <Route path="/" exact>
                 <SignInPage/>
             </Route>
             <Route path="/register" exact>
                 <SignUpPage/>
             </Route>
-            {/*<Route path="*" exact>*/}
-            {/*    <NotFoundPage/>*/}
-            {/*</Route>*/}
-            <Redirect to="/login"/>
+            <Route path="*" exact>
+                <NotFoundPage/>
+            </Route>
+            {/*<Redirect to="/"/>*/}
         </Switch>
     )
 }

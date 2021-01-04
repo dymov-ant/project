@@ -1,6 +1,6 @@
 import React from "react";
-// import {Link} from "react-router-dom";
 import {connect} from "react-redux";
+import {useHistory} from "react-router-dom";
 import {setShowSidebar} from "../../redux/actions/app";
 import {logout} from "../../redux/actions/auth";
 
@@ -43,8 +43,12 @@ const Header = ({isAuth, isMobile, showSidebar, setShowSidebar, logout}) => {
         setShowSidebar(!showSidebar);
     }
 
-    return (
+    const history = useHistory();
+    const onLogout = () => {
+        logout(history);
+    }
 
+    return (
         <header className="header">
             <div className="header_wrapper container">
                 {
@@ -56,7 +60,7 @@ const Header = ({isAuth, isMobile, showSidebar, setShowSidebar, logout}) => {
                 }
                 {
                     // isAuth && <UserBox userName={userName} logout={logout}/>
-                    isAuth && <button className="btn btn__small btn__light" onClick={() => logout()}>Выход</button>
+                    isAuth && <button className="btn btn__small btn__light" onClick={onLogout}>Выход</button>
                 }
             </div>
         </header>
