@@ -6,7 +6,6 @@ const path = require("path");
 const app = express();
 
 app.use(express.static(path.join(__dirname, "content")));
-app.use(express.static(path.join(__dirname, "client", "build")));
 app.use(express.json({extended: true}));
 
 app.use("/api/v1/auth", require("./routes/auth.routes"));
@@ -14,7 +13,7 @@ app.use("/api/v1/profile", require("./routes/profile.routes"));
 
 async function start() {
     try {
-        await mongoose.connect(config.get("mongoUri"), {
+        await mongoose.connect(process.env.MONGODB_URI || config.get("mongoUri"), {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useCreateIndex: true,
@@ -25,6 +24,11 @@ async function start() {
         process.exit(1);
     }
 }
+
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, "client", "build")));
+}
+
 start();
 
 // const PORT = config.get("PORT") || 5000;
