@@ -7,6 +7,12 @@ const api = axios.create({
     }
 });
 
+api.interceptors.request.use(function (config) {
+    const {access_token} = localStorage;
+    config.headers.Authorization = access_token ? `Bearer ${access_token}` : "";
+    return config;
+});
+
 export const authAPI = {
     register(userData) {
         return api.post("auth/register", userData);

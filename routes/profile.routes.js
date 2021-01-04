@@ -4,12 +4,13 @@ const {check, validationResult} = require("express-validator");
 const bcrypt = require("bcryptjs");
 const path = require("path");
 const fs = require("fs");
+const auth = require("../middleware/auth.middleware");
 const User = require("../models/User");
 
 const router = Router();
 
 // /api/v1/profile/
-router.get("/", async (req, res) => {
+router.get("/", auth, async (req, res) => {
     try {
         const profile = await User.findById(req.query.id);
         if (!profile) {
@@ -24,6 +25,7 @@ router.get("/", async (req, res) => {
 
 router.put(
     "/:userId/edit",
+    auth,
     [
         check("name", "Минимальная длина имени и фамилии 5 символов").isLength({min: 5}),
         check("email", "Некорректный email").isEmail()
@@ -39,9 +41,9 @@ router.put(
             }
 
             const newProfile = req.body;
-            console.log(req.body)
             const candidate = await User.findOne({email: newProfile.email});
-            if (candidate && candidate._id.toString() !== req.params.userId) {
+            if (candidate && candidate._id.toString() !== req.user.userId) {
+                // if (candidate && candidate._id.toString() !== req.params.userId) {
                 return res.status(400).json({message: "Такой email уже используется"});
             }
             await User.findOneAndUpdate({_id: req.params.userId}, newProfile);
@@ -61,6 +63,7 @@ const upload = multer({storage: storage});
 
 router.post(
     "/:userId/edit/photo",
+    auth,
     upload.single("photo"),
     async (req, res) => {
         try {
@@ -89,6 +92,7 @@ router.post(
 
 router.post(
     "/:userId/edit/password",
+    auth,
     [
         check("password", "Минимальная длина пароля 6 символов").isLength({min: 6}),
         check("newPassword", "Минимальная длина нового пароля 6 символов").isLength({min: 6})
@@ -124,6 +128,7 @@ router.post(
 
 router.post(
     "/:userId/edit/status",
+    auth,
     async (req, res) => {
         try {
             const {status} = req.body;

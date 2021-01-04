@@ -2,7 +2,7 @@ import jwtDecode from "jwt-decode";
 import {SET_CURRENT_USER} from "./types";
 import {addNotification, setLoading} from "./app";
 import {authAPI} from "../../services/api";
-import setAuthToken from "../../services/setAuthToken";
+// import setAuthToken from "../../services/setAuthToken";
 import {isErrors} from "../../services/isErrorsInActions";
 
 export const setCurrentUser = user => ({
@@ -35,7 +35,7 @@ export const login = userData => async dispatch => {
         if (response.status === 200) {
             const {token} = response.data;
             localStorage.setItem("access_token", token);
-            setAuthToken(token);
+            // setAuthToken(token);
             const decode = jwtDecode(token);
             dispatch(setCurrentUser(decode));
         }

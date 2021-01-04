@@ -46,7 +46,7 @@ export const useRoutes = (isAuth) => {
             {/*<Route path="*" exact>*/}
             {/*    <NotFoundPage/>*/}
             {/*</Route>*/}
-            {/*<Redirect to="/"/>*/}
+            <Redirect to="/login"/>
         </Switch>
     )
 }

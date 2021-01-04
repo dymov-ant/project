@@ -6,7 +6,7 @@ import Header from "./components/header/Header";
 import Sidebar from "./components/sidebar/Sidebar";
 import {useRoutes} from "./useRoutes";
 import {setIsMobile, setShowSidebar} from "./redux/actions/app";
-import setAuthToken from "./services/setAuthToken";
+// import setAuthToken from "./services/setAuthToken";
 import {logout, setCurrentUser} from "./redux/actions/auth";
 import "./app.sass";
 
@@ -14,7 +14,7 @@ const App = ({isMobile, showSidebar, setIsMobile, setShowSidebar, isAuthenticate
 
     if (localStorage.access_token) {
         const {access_token} = localStorage;
-        setAuthToken(access_token);
+        // setAuthToken(access_token);
         const decoded = jwtDecode(access_token);
         setCurrentUser(decoded);
         const currentTime = Date.now() / 1000;
