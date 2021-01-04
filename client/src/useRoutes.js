@@ -1,4 +1,4 @@
-import {Switch, Route} from "react-router-dom";
+import {Switch, Route, Redirect} from "react-router-dom";
 import SettingsPage from "./pages/settingsPage/SettingsPage";
 import SignInPage from "./pages/signPage/SignInPage";
 import SignUpPage from "./pages/signPage/SignUpPage";
@@ -27,10 +27,10 @@ export const useRoutes = (isAuth) => {
                 <Route path="/profile/:userId?">
                     <ProfilePage/>
                 </Route>
-                {/*<Redirect to="/profile"/>*/}
-                <Route path="*" exact>
-                    <NotFoundPage/>
-                </Route>
+                <Redirect to="/profile"/>
+                {/*<Route path="*" exact>*/}
+                {/*    <NotFoundPage/>*/}
+                {/*</Route>*/}
             </Switch>
         )
     }
@@ -46,7 +46,7 @@ export const useRoutes = (isAuth) => {
             <Route path="*" exact>
                 <NotFoundPage/>
             </Route>
-            {/*<Redirect to="/login"/>*/}
+            <Redirect to="/login"/>
         </Switch>
     )
 }

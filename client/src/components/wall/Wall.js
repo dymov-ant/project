@@ -68,8 +68,8 @@ const Wall = ({data, userId, activeId}) => {
 }
 
 const mapStateToProps = state => ({
-    userId: state.auth.user.userId
-    // activeId: state.profile.profile.id
+    userId: state.auth.user.userId,
+    activeId: state.profile.profile.id
 });
 
 export default connect(mapStateToProps)(Wall);
