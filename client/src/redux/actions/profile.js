@@ -39,7 +39,7 @@ export const getProfile = id => async dispatch => {
 export const updateProfile = (userId, profileData) => async dispatch => {
     try {
         dispatch(setLoading(true));
-        const response = await profileAPI.updateProfile(userId, profileData);
+        const response = await profileAPI.updateProfile(profileData);
         if (response.status === 200) {
             dispatch(getProfile(userId));
             dispatch(addNotification({
@@ -54,10 +54,10 @@ export const updateProfile = (userId, profileData) => async dispatch => {
     }
 };
 
-export const updateUserPhoto = (file, id) => async dispatch => {
+export const updateUserPhoto = (file) => async dispatch => {
     try {
         dispatch(setLoading(true));
-        const response = await profileAPI.updateUserPhoto(file, id);
+        const response = await profileAPI.updateUserPhoto(file);
         if (response.status === 200) {
             dispatch(addNotification({
                 id: `f${(~~(Math.random() * 1e8)).toString(16)}`,
@@ -71,10 +71,10 @@ export const updateUserPhoto = (file, id) => async dispatch => {
     }
 }
 
-export const updatePassword = (passwords, userId) => async dispatch => {
+export const updatePassword = (passwords) => async dispatch => {
     try {
         dispatch(setLoading(true));
-        const response = await profileAPI.updatePassword(passwords, userId);
+        const response = await profileAPI.updatePassword(passwords);
         if (response.status === 200) {
             dispatch(addNotification({
                 id: `f${(~~(Math.random() * 1e8)).toString(16)}`,
@@ -91,7 +91,7 @@ export const updatePassword = (passwords, userId) => async dispatch => {
 export const updateProfileStatus = (status, userId) => async dispatch => {
     try {
         dispatch(setLoading(true));
-        const response = await profileAPI.updateStatus(status, userId);
+        const response = await profileAPI.updateStatus(status);
         if (response.status === 200) {
             dispatch(getProfile(userId));
         }

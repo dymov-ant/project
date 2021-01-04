@@ -5,13 +5,13 @@ import {getProfile, updatePassword, updateProfile, updateUserPhoto} from "../../
 import Spinner from "../../components/spinner/Spinner";
 import SettingsInfo from "../../components/settings/SettingsInfo";
 
-const SettingsPhoto = ({updateUserPhoto, userId, loading}) => {
+const SettingsPhoto = ({updateUserPhoto, loading}) => {
     const formik = useFormik({
         initialValues: {photo: null},
         onSubmit: values => {
             const formData = new FormData();
             formData.append("photo", values.photo);
-            updateUserPhoto(formData, userId);
+            updateUserPhoto(formData);
         }
     });
     return (
@@ -144,7 +144,7 @@ const SettingsPage = ({userId, loading, getProfile, updateUserPhoto, updatePassw
         <div className="settings">
             <h1 className="title settings_title">Настройки профиля</h1>
             <span className="subtext settings_subtext">Фотография</span>
-            <SettingsPhoto updateUserPhoto={updateUserPhoto} userId={userId} loading={loading}/>
+            <SettingsPhoto updateUserPhoto={updateUserPhoto} loading={loading}/>
             <span className="subtext settings_subtext">Информация о пользователе</span>
             <SettingsInfo/>
             <span className="subtext settings_subtext">Пароль</span>

@@ -24,7 +24,7 @@ router.get("/", auth, async (req, res) => {
 });
 
 router.put(
-    "/:userId/edit",
+    "/edit",
     auth,
     [
         check("name", "Минимальная длина имени и фамилии 5 символов").isLength({min: 5}),
@@ -46,7 +46,7 @@ router.put(
                 // if (candidate && candidate._id.toString() !== req.params.userId) {
                 return res.status(400).json({message: "Такой email уже используется"});
             }
-            await User.findOneAndUpdate({_id: req.params.userId}, newProfile);
+            await User.findOneAndUpdate({_id: req.user.userId}, newProfile);
             res.json({message: "Профиль обновлен"});
         } catch (e) {
             res.status(500).json({message: 'Что-то пошло не так, попробуйте ещё раз!'});
@@ -62,7 +62,7 @@ const storage = multer.diskStorage({
 const upload = multer({storage: storage});
 
 router.post(
-    "/:userId/edit/photo",
+    "/edit/photo",
     auth,
     upload.single("photo"),
     async (req, res) => {
@@ -71,7 +71,7 @@ router.post(
             if (!fileData) {
                 return res.status(400).json({message: "Ошибка при загрузке фотографии"});
             }
-            const user = await User.findById(req.params.userId);
+            const user = await User.findById(req.user.userId);
             fs.unlink(path.join("content", user.photo), err => {
                 if (err) {
                     console.log(err);
@@ -79,7 +79,7 @@ router.post(
             });
 
             await User.findOneAndUpdate(
-                {_id: req.params.userId},
+                {_id: req.user.userId},
                 {photo: path.join("photos", fileData.filename)}
             );
 
@@ -91,7 +91,7 @@ router.post(
     });
 
 router.post(
-    "/:userId/edit/password",
+    "/edit/password",
     auth,
     [
         check("password", "Минимальная длина пароля 6 символов").isLength({min: 6}),
@@ -108,14 +108,14 @@ router.post(
             }
 
             const {password, newPassword} = req.body;
-            const user = await User.findById(req.params.userId);
+            const user = await User.findById(req.user.userId);
             const isMatch = await bcrypt.compare(password, user.password);
             if (!isMatch) {
                 return res.status(400).json({message: "Неверный пароль, попробуйте ещё раз!"});
             }
             const hashedPassword = await bcrypt.hash(newPassword, 12);
             await User.findOneAndUpdate(
-                {_id: req.params.userId},
+                {_id: req.user.userId},
                 {password: hashedPassword}
             );
 
@@ -127,7 +127,7 @@ router.post(
 
 
 router.post(
-    "/:userId/edit/status",
+    "/edit/status",
     auth,
     async (req, res) => {
         try {
@@ -135,7 +135,7 @@ router.post(
             if (status.length > 40) {
                 return res.status(400).json({message: "Максимальная длина статуса 40 символов"});
             }
-            await User.findOneAndUpdate({_id: req.params.userId}, {status});
+            await User.findOneAndUpdate({_id: req.user.userId}, {status});
             res.json({message: "Статус обновлен"});
         } catch (e) {
             res.status(500).json({message: 'Что-то пошло не так, попробуйте ещё раз!'});

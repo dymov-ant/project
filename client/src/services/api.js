@@ -26,18 +26,18 @@ export const profileAPI = {
     getProfile(id) {
         return api.get("profile", {params: {id}});
     },
-    updateProfile(userId, profileData) {
-        return api.put(`profile/${userId}/edit`, profileData);
+    updateProfile(profileData) {
+        return api.put(`profile/edit`, profileData);
     },
-    updateUserPhoto(file, userId) {
-        return api.post(`profile/${userId}/edit/photo`, file, {
+    updateUserPhoto(file) {
+        return api.post(`profile/edit/photo`, file, {
             headers: {"Content-Type":"multipart/form-data"}
         });
     },
-    updatePassword(passwords, userId) {
-        return api.post(`profile/${userId}/edit/password`, passwords);
+    updatePassword(passwords) {
+        return api.post(`profile/edit/password`, passwords);
     },
-    updateStatus(status, userId) {
-        return api.post(`/profile/${userId}/edit/status`, {status});
+    updateStatus(status) {
+        return api.post(`/profile/edit/status`, {status});
     }
 };
