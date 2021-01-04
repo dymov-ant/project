@@ -2,6 +2,7 @@ const {Router} = require("express");
 const multer = require("multer");
 const {check, validationResult} = require("express-validator");
 const bcrypt = require("bcryptjs");
+const config = require("config");
 const path = require("path");
 const fs = require("fs");
 const auth = require("../middleware/auth.middleware");
@@ -72,7 +73,8 @@ router.post(
                 return res.status(400).json({message: "Ошибка при загрузке фотографии"});
             }
             const user = await User.findById(req.user.userId);
-            fs.unlink(path.join("content", user.photo), err => {
+            const oldPhoto = user.photo.split("/")[user.photo.split("/").length - 1];
+            fs.unlink(path.join("content", "photos", oldPhoto), err => {
                 if (err) {
                     console.log(err);
                 }
@@ -80,7 +82,7 @@ router.post(
 
             await User.findOneAndUpdate(
                 {_id: req.user.userId},
-                {photo: path.join("photos", fileData.filename)}
+                {photo: config.get("baseUrl") + path.join("/photos", fileData.filename)}
             );
 
             res.json({message: "Фотография обновлена"});

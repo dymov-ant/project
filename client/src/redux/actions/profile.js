@@ -26,7 +26,7 @@ export const getProfile = id => async dispatch => {
             const {photo, posts, ...profile} = response.data;
             dispatch(setProfile({posts, profile}));
             if (photo) {
-                dispatch(setUserPhoto("http://localhost:5000/" + photo));
+                dispatch(setUserPhoto(photo));
             }
             dispatch(setNotFound(false));
         }
