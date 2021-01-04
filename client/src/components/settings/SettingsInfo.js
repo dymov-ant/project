@@ -52,7 +52,7 @@ const SettingsInfo = ({profile, userId, loading, updateProfile}) => {
         initialValues: {
             name: profile.name || "Нет данных",
             email: profile.email || "Нет данных",
-            birthDate: profile.birthDate || "Нет данных",
+            birthDate: profile.birthDate || Date.now(),
             city: profile.city || "Нет данных",
             maritalStatus: profile.maritalStatus || "Нет данных",
             education: profile.education || "Нет данных",

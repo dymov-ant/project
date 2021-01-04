@@ -1,4 +1,4 @@
-import {Switch, Route, Redirect} from "react-router-dom";
+import {Switch, Route} from "react-router-dom";
 import SettingsPage from "./pages/settingsPage/SettingsPage";
 import SignInPage from "./pages/signPage/SignInPage";
 import SignUpPage from "./pages/signPage/SignUpPage";
@@ -6,7 +6,7 @@ import FriendsPage from "./pages/FriendsPage";
 import MessagesPage from "./pages/MessagesPage";
 import FeedsPage from "./pages/FeedsPage";
 import ProfilePage from "./pages/profilePage/ProfilePage";
-// import NotFoundPage from "./pages/404/404";
+import NotFoundPage from "./pages/404/404";
 
 export const useRoutes = (isAuth) => {
     if (isAuth) {
@@ -27,10 +27,10 @@ export const useRoutes = (isAuth) => {
                 <Route path="/profile/:userId?">
                     <ProfilePage/>
                 </Route>
-                <Redirect to="/profile"/>
-                {/*<Route path="*" exact>*/}
-                {/*    <NotFoundPage/>*/}
-                {/*</Route>*/}
+                {/*<Redirect to="/profile"/>*/}
+                <Route path="*" exact>
+                    <NotFoundPage/>
+                </Route>
             </Switch>
         )
     }
@@ -43,10 +43,10 @@ export const useRoutes = (isAuth) => {
             <Route path="/register" exact>
                 <SignUpPage/>
             </Route>
-            {/*<Route path="*" exact>*/}
-            {/*    <NotFoundPage/>*/}
-            {/*</Route>*/}
-            <Redirect to="/login"/>
+            <Route path="*" exact>
+                <NotFoundPage/>
+            </Route>
+            {/*<Redirect to="/login"/>*/}
         </Switch>
     )
 }
