@@ -1,5 +1,6 @@
 {
   "mongoUri": "mongodb+srv://anton:q12453912@cluster0.wcuej.mongodb.net/app?retryWrites=true&w=majority",
   "jwtSecret": "asdqwezx",
-  "baseUrl": "https://react-node-social.herokuapp.com"
+  "baseUrl": "http://react-project.ru",
+  "PORT": "80"
 }

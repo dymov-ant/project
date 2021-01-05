@@ -9,11 +9,11 @@ const SignUpPage = ({loading, register}) => {
     const validate = values => {
         const errors = {};
 
-        if (!values.name) {
+        if (!values.name.trim()) {
             errors.name = "Поле обязательно";
-        } else if (values.name.length < 5) {
+        } else if (values.name.trim().length < 5) {
             errors.name = "Минимальная длина имени и фамилии 5 символов";
-        } else if (values.name.length > 50) {
+        } else if (values.name.trim().length > 50) {
             errors.name = "Максимальная длина имени и фамилии 50 символов";
         }
 

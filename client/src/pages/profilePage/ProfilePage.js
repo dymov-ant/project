@@ -5,7 +5,8 @@ import Wall from "../../components/wall/Wall";
 import {getProfile, updateProfileStatus} from "../../redux/actions/profile";
 import Spinner from "../../components/spinner/Spinner";
 import ProfileStatus from "../../components/profileStatus/ProfileStatus";
-import NotFoundPage from "../404/404";
+import NotFoundPage from "../notFound/404";
+import avatar from "./no_avatar.png";
 
 const ProfilePage = ({loading, id, getProfile, photo, profile, posts, isNotFound}) => {
 
@@ -16,7 +17,6 @@ const ProfilePage = ({loading, id, getProfile, photo, profile, posts, isNotFound
         getProfile(activeId);
     }, [activeId, getProfile])
 
-    const src = "https://img4.goodfon.ru/original/2048x1344/6/55/kot-sneg-zima-1.jpg";
     if (isNotFound) {
         return <NotFoundPage/>
     }
@@ -28,7 +28,7 @@ const ProfilePage = ({loading, id, getProfile, photo, profile, posts, isNotFound
             <div className="profile_wrapper">
                 <div className="profile_photo">
                     <img
-                        src={photo || src}
+                        src={photo || avatar}
                         alt="avatar"
                         className="card_img"
                     />

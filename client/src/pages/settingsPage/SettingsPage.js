@@ -23,6 +23,7 @@ const SettingsPhoto = ({updateUserPhoto, loading}) => {
                     id="photo"
                     name="photo"
                     className="form-control"
+                    accept="image/jpeg,image/png"
                     onChange={(event) => {
                         formik.setFieldValue("photo", event.currentTarget.files[0])
                     }}
@@ -58,6 +59,16 @@ const SettingsPassword = ({updatePassword, userId}) => {
             errors.newPassword = "Максимальная длина нового пароля 50 символов";
         }
 
+        if (!values.newPassword2) {
+            errors.newPassword2 = "Поле обязательно";
+        } else if (values.newPassword2.length < 6) {
+            errors.newPassword2 = "Минимальная длина нового пароля 6 символов";
+        } else if (values.newPassword2.length > 50) {
+            errors.newPassword2 = "Максимальная длина нового пароля 50 символов";
+        } else if (values.newPassword2 !== values.newPassword) {
+            errors.newPassword2 = "Пароли не совпадают";
+        }
+
         return errors;
     }
 
@@ -65,7 +76,8 @@ const SettingsPassword = ({updatePassword, userId}) => {
         enableReinitialize: true,
         initialValues: {
             password: "",
-            newPassword: ""
+            newPassword: "",
+            newPassword2: ""
         },
         validate,
         onSubmit: values => {
@@ -119,6 +131,30 @@ const SettingsPassword = ({updatePassword, userId}) => {
                     {
                         formik.touched.newPassword && formik.errors.newPassword
                             ? (<div className="subtext error">{formik.errors.newPassword}</div>)
+                            : null
+                    }
+                </div>
+            </div>
+            <div className="settings_item">
+                <label htmlFor="newPassword2" className="subtext">Новый пароль еще раз:</label>
+                <div>
+                    <input
+                        type="password"
+                        id="newPassword2"
+                        name="newPassword2"
+                        className={
+                            formik.touched.newPassword2 && formik.errors.newPassword2
+                                ? "form-control error mb-05"
+                                : "form-control"
+                        }
+                        placeholder="Новый пароль еще раз"
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.newPassword2}
+                    />
+                    {
+                        formik.touched.newPassword2 && formik.errors.newPassword2
+                            ? (<div className="subtext error">{formik.errors.newPassword2}</div>)
                             : null
                     }
                 </div>

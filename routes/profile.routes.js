@@ -1,5 +1,6 @@
 const {Router} = require("express");
 const multer = require("multer");
+const mongoose = require("mongoose");
 const {check, validationResult} = require("express-validator");
 const bcrypt = require("bcryptjs");
 const config = require("config");
@@ -13,12 +14,27 @@ const router = Router();
 // /api/v1/profile/
 router.get("/", auth, async (req, res) => {
     try {
-        const profile = await User.findById(req.query.id);
+        if (!mongoose.Types.ObjectId.isValid(req.query.id)) {
+            return res.status(404).json({message: "Профиль не найден!"});
+        }
+        const profile = await User.findById(req.query.id).exec();
         if (!profile) {
             return res.status(404).json({message: "Профиль не найден!"});
         }
         const {_id, email, name, photo, status, birthDate, city, maritalStatus, education, job, posts} = profile;
-        res.json({id: _id, email, name, photo, status, birthDate, city, maritalStatus, education, job, posts});
+        res.json({
+            id: _id,
+            email,
+            name,
+            photo,
+            status,
+            birthDate: birthDate.toISOString().split("T")[0],
+            city,
+            maritalStatus,
+            education,
+            job,
+            posts
+        });
     } catch (e) {
         res.status(500).json({message: 'Что-то пошло не так, попробуйте ещё раз!'});
     }
@@ -60,7 +76,17 @@ const storage = multer.diskStorage({
         next(null, file.fieldname + "-" + Date.now() + ".jpg");
     }
 });
-const upload = multer({storage: storage});
+const upload = multer({
+    storage: storage,
+    fileFilter: (req, file, cb) => {
+        console.log(file.mimetype)
+        if (file.mimetype === "image/png" || file.mimetype === "image/ipg" || file.mimetype === "image/jpeg") {
+            cb(null, true);
+        } else {
+            cb(null, false);
+        }
+    }
+});
 
 router.post(
     "/edit/photo",
@@ -90,7 +116,8 @@ router.post(
             res.json({message: "Фотография обновлена"});
 
         } catch (e) {
-            res.status(500).json({message: 'Что-то пошло не так, попробуйте ещё раз!'});
+            console.log(e)
+            res.status(500).json({message: e.message || 'Что-то пошло не так, попробуйте ещё раз!'});
         }
     });
 
@@ -111,12 +138,19 @@ router.post(
                 });
             }
 
-            const {password, newPassword} = req.body;
+            const {password, newPassword, newPassword2} = req.body;
+            if (password === newPassword) {
+                return res.status(400).json({message: "Старый и новый пароли совпадают!"});
+            }
+            if (newPassword !== newPassword2) {
+                return res.status(400).json({message: "Новые пароли не совпадают!"});
+            }
             const user = await User.findById(req.user.userId);
             const isMatch = await bcrypt.compare(password, user.password);
             if (!isMatch) {
                 return res.status(400).json({message: "Неверный пароль, попробуйте ещё раз!"});
             }
+
             const hashedPassword = await bcrypt.hash(newPassword, 12);
             await User.findOneAndUpdate(
                 {_id: req.user.userId},

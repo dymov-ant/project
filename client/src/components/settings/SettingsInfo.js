@@ -10,11 +10,11 @@ const SettingsInfo = ({profile, userId, loading, updateProfile}) => {
 
         const errors = {};
 
-        if (!values.name) {
+        if (!values.name.trim()) {
             errors.name = "Поле обязательно";
-        } else if (values.name.length < 5) {
+        } else if (values.name.trim().length < 5) {
             errors.name = "Минимальная длина имени и фамилии 5 символов";
-        } else if (values.name.length > 50) {
+        } else if (values.name.trim().length > 50) {
             errors.name = "Максимальная длина имени и фамилии 50 символов";
         }
 
@@ -28,19 +28,19 @@ const SettingsInfo = ({profile, userId, loading, updateProfile}) => {
             errors.birthDate = "Поле обязательно";
         }
 
-        if (values.city.length > 30) {
+        if (values.city.trim().length > 30) {
             errors.city = "Максимальная длина названия города 30 символов";
         }
 
-        if (values.maritalStatus.length > 30) {
+        if (values.maritalStatus.trim().length > 30) {
             errors.maritalStatus = "Максимальная длина семейного положения 30 символов";
         }
 
-        if (values.education.length > 30) {
+        if (values.education.trim().length > 30) {
             errors.education = "Максимальная длина образования 30 символов";
         }
 
-        if (values.job.length > 30) {
+        if (values.job.trim().length > 30) {
             errors.job = "Максимальная длина места работы 30 символов";
         }
 
@@ -60,6 +60,9 @@ const SettingsInfo = ({profile, userId, loading, updateProfile}) => {
         },
         validate,
         onSubmit: values => {
+            for (const key in values) {
+                values[key] = values[key].trim();
+            }
             updateProfile(userId, values);
         }
     });
@@ -131,7 +134,10 @@ const SettingsInfo = ({profile, userId, loading, updateProfile}) => {
                         placeholder="Дата рождения"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
-                        value={(new Date(formik.values.birthDate).toISOString().split("T")[0])}
+                        // value={(new Date(formik.values.birthDate).toISOString().split("T")[0])}
+                        value={formik.values.birthDate}
+                        min="1920-01-01"
+                        max={new Date().toISOString().split("T")[0]}
                     />
                     {
                         formik.touched.birthDate && formik.errors.birthDate

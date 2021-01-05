@@ -1,14 +1,14 @@
 import React from "react";
 import {connect} from "react-redux";
-import {useHistory} from "react-router-dom";
+import {useHistory, Link} from "react-router-dom";
 import {setShowSidebar} from "../../redux/actions/app";
 import {logout} from "../../redux/actions/auth";
 
 const Logo = () => {
     return (
-        <div className="header_logo">
+        <Link to="/" className="header_logo">
             Logo
-        </div>
+        </Link>
     )
 }
 

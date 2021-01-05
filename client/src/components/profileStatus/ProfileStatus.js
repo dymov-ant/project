@@ -20,7 +20,7 @@ const ProfileStatus = ({body, updateProfileStatus, activeId, userId}) => {
     const deactivateEditMode = () => {
         setEditMode(false);
         setError(false);
-        updateProfileStatus(status, activeId);
+        updateProfileStatus(status.trim(), activeId);
     };
 
     const onStatusChange = event => {
