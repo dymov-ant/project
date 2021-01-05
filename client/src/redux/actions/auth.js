@@ -3,6 +3,7 @@ import {SET_CURRENT_USER} from "./types";
 import {addNotification, setLoading} from "./app";
 import {authAPI} from "../../services/api";
 import {isErrors} from "../../services/isErrorsInActions";
+import {setProfile, setUserPhoto} from "./profile";
 
 export const setCurrentUser = user => ({
     type: SET_CURRENT_USER,
@@ -47,5 +48,7 @@ export const login = userData => async dispatch => {
 export const logout = (history) => dispatch => {
     localStorage.removeItem("access_token");
     dispatch(setCurrentUser({}));
+    dispatch(setProfile({post: [], profile: {}}));
+    dispatch(setUserPhoto(null));
     history.push("/");
 }

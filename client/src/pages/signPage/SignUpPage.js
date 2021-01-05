@@ -124,6 +124,8 @@ const SignUpPage = ({loading, register}) => {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         value={formik.values.birthdate}
+                        min="1920-01-01"
+                        max={new Date().toISOString().split("T")[0]}
                     />
                     {
                         formik.touched.birthdate && formik.errors.birthdate
