@@ -190,9 +190,9 @@ const SettingsPage = ({userId, loading, getProfile, updateUserPhoto, updatePassw
 }
 
 const mapStateToProps = state => ({
-    userId: state.auth.user.userId,
-    loading: state.app.loading,
-    profile: state.profile.profile
+    userId: state.authReducer.user.userId,
+    loading: state.appReducer.loading,
+    profile: state.profileReducer.profile
 });
 
 export default connect(
