@@ -16,7 +16,7 @@ const initialState = {
     notFound: false
 };
 
-const appReducer = (state = initialState, action) => {
+export const appReducer = (state = initialState, action) => {
     switch (action.type) {
         case IS_MOBILE:
             return {
@@ -56,5 +56,3 @@ const appReducer = (state = initialState, action) => {
             return state;
     }
 }
-
-export default appReducer;

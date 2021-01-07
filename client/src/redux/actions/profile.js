@@ -1,4 +1,4 @@
-import {SET_PROFILE, SET_STATUS, SET_USER_PHOTO} from "./types";
+import {SET_PROFILE, SET_STATUS} from "./types";
 import {profileAPI} from "../../services/api";
 import {addNotification, setLoading, setNotFound} from "./app";
 import {isErrors} from "../../services/isErrorsInActions";
@@ -6,11 +6,6 @@ import {isErrors} from "../../services/isErrorsInActions";
 export const setProfile = data => ({
     type: SET_PROFILE,
     payload: data
-});
-
-export const setUserPhoto = photoUrl => ({
-    type: SET_USER_PHOTO,
-    payload: photoUrl
 });
 
 export const setStatus = status => ({
@@ -23,11 +18,8 @@ export const getProfile = id => async dispatch => {
         dispatch(setLoading(true));
         const response = await profileAPI.getProfile(id);
         if (response.status === 200) {
-            const {photo, posts, ...profile} = response.data;
-            dispatch(setProfile({posts, profile}));
-            if (photo) {
-                dispatch(setUserPhoto(photo));
-            }
+            const {posts, ...profile} = response.data;
+            dispatch(setProfile({profile}));
             dispatch(setNotFound(false));
         }
         dispatch(setLoading(false));
@@ -46,7 +38,7 @@ export const updateProfile = (userId, profileData) => async dispatch => {
                 id: `f${(~~(Math.random() * 1e8)).toString(16)}`,
                 body: response.data.message,
                 type: "success"
-            }))
+            }));
         }
         dispatch(setLoading(false));
     } catch (e) {

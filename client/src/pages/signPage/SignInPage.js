@@ -84,7 +84,7 @@ const SignInPage = ({loading, login}) => {
 }
 
 const mapStateToProps = state => ({
-    loading: state.app.loading
+    loading: state.appReducer.loading
 });
 
 export default connect(mapStateToProps, {login})(SignInPage);

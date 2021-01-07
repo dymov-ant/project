@@ -1,7 +1,7 @@
 import {combineReducers} from "redux";
+import {appReducer} from "./app";
+import {authReducer} from "./auth";
+import {profileReducer} from "./profile";
+import {postsReducer} from "./posts";
 
-import app from "./app";
-import auth from "./auth";
-import profile from "./profile";
-
-export default combineReducers({app, auth, profile});
+export default combineReducers({appReducer, authReducer, profileReducer, postsReducer});

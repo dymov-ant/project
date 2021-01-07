@@ -10,6 +10,7 @@ app.use(express.json({extended: true}));
 
 app.use("/api/v1/auth", require("./routes/auth.routes"));
 app.use("/api/v1/profile", require("./routes/profile.routes"));
+app.use("/api/v1/posts", require("./routes/post.routes"));
 
 async function start() {
     try {

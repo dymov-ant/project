@@ -58,7 +58,7 @@ const ProfileStatus = ({body, updateProfileStatus, activeId, userId}) => {
 }
 
 const mapStateToProps = state => ({
-    userId: state.auth.user.userId
+    userId: state.authReducer.user.userId
 });
 
 export default connect(mapStateToProps, {updateProfileStatus})(ProfileStatus);

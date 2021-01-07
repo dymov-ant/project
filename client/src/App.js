@@ -24,7 +24,6 @@ const App = ({isMobile, showSidebar, setIsMobile, setShowSidebar, isAuthenticate
         }
     }
 
-    // const isAuth = false;
     const routes = useRoutes(isAuthenticated);
 
     const updateViewState = () => {
@@ -72,9 +71,9 @@ const App = ({isMobile, showSidebar, setIsMobile, setShowSidebar, isAuthenticate
 }
 
 const mapStateToProps = state => ({
-    isMobile: state.app.isMobile,
-    showSidebar: state.app.showSidebar,
-    isAuthenticated: state.auth.isAuthenticated,
+    isMobile: state.appReducer.isMobile,
+    showSidebar: state.appReducer.showSidebar,
+    isAuthenticated: state.authReducer.isAuthenticated,
 });
 
 export default connect(mapStateToProps, {setIsMobile, setShowSidebar, setCurrentUser, logout})(App);

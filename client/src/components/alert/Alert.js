@@ -47,7 +47,7 @@ const AlertList = ({notifications, deleteNotification, children}) => {
 }
 
 const mapStateToProps = state => ({
-    notifications: state.app.notifications
+    notifications: state.appReducer.notifications
 })
 
 export default connect(mapStateToProps, {deleteNotification})(AlertList);

@@ -41,3 +41,21 @@ export const profileAPI = {
         return api.post(`/profile/edit/status`, {status});
     }
 };
+
+export const postsAPI = {
+    getPosts(userId) {
+        return api.get("/posts", {params: {userId}});
+    },
+    addPost(post) {
+        return api.post("/posts/add", {body: post});
+    },
+    deletePost(postId) {
+        return api.delete("/posts/delete/" + postId);
+    },
+    createLike(postId) {
+        return api.post(`/posts/${postId}/likes`);
+    },
+    removeLike(postId, likeId) {
+        return api.delete(`/posts/${postId}/likes/${likeId}`);
+    }
+}

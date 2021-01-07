@@ -3,19 +3,21 @@ import {connect} from "react-redux";
 import {Link, useParams} from "react-router-dom";
 import Wall from "../../components/wall/Wall";
 import {getProfile, updateProfileStatus} from "../../redux/actions/profile";
+import {getPosts} from "../../redux/actions/posts";
 import Spinner from "../../components/spinner/Spinner";
 import ProfileStatus from "../../components/profileStatus/ProfileStatus";
 import NotFoundPage from "../notFound/404";
-import avatar from "./no_avatar.png";
+import avatar from "../../shared/no_avatar.png";
 
-const ProfilePage = ({loading, id, getProfile, photo, profile, posts, isNotFound}) => {
+const ProfilePage = ({loading, id, getProfile, profile, posts, isNotFound, getPosts}) => {
 
     const {userId} = useParams();
     const activeId = userId || id;
 
     useEffect(() => {
         getProfile(activeId);
-    }, [activeId, getProfile])
+        getPosts(activeId);
+    }, [activeId, getProfile, getPosts]);
 
     if (isNotFound) {
         return <NotFoundPage/>
@@ -28,7 +30,7 @@ const ProfilePage = ({loading, id, getProfile, photo, profile, posts, isNotFound
             <div className="profile_wrapper">
                 <div className="profile_photo">
                     <img
-                        src={photo || avatar}
+                        src={profile.photo || avatar}
                         alt="avatar"
                         className="card_img"
                     />
@@ -66,12 +68,11 @@ const ProfilePage = ({loading, id, getProfile, photo, profile, posts, isNotFound
 }
 
 const mapStateToProps = state => ({
-    loading: state.app.loading,
-    id: state.auth.user.userId,
-    photo: state.profile.photo,
-    profile: state.profile.profile,
-    posts: state.profile.posts,
-    isNotFound: state.app.notFound
+    loading: state.appReducer.loading,
+    id: state.authReducer.user.userId,
+    profile: state.profileReducer.profile,
+    posts: state.postsReducer.posts,
+    isNotFound: state.appReducer.notFound
 });
 
-export default connect(mapStateToProps, {getProfile})(ProfilePage);
+export default connect(mapStateToProps, {getProfile, getPosts})(ProfilePage);

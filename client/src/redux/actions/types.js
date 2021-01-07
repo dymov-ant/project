@@ -8,5 +8,8 @@ export const SET_NOT_FOUND = "app/SET_NOT_FOUND";
 export const SET_CURRENT_USER = "auth/SET_CURRENT_USER";
 
 export const SET_PROFILE = "profile/SET_PROFILE";
-export const SET_USER_PHOTO = "profile/SET_USER_PHOTO";
 export const SET_STATUS = "profile/SET_STATUS";
+export const SET_POSTS = "profile/SET_POSTS";
+export const ADD_POST = "profile/ADD_POST";
+export const UPDATE_POSTS = "profile/UPDATE_POST";
+export const DELETE_POST = "profile/DELETE_POST";

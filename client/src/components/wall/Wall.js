@@ -1,51 +1,44 @@
-import React from "react";
+import React, {useState} from "react";
 import {connect} from "react-redux";
 import Post from "../post/Post";
+import Spinner from "../spinner/Spinner";
+import {createLike, createPost, deletePost, removeLike} from "../../redux/actions/posts";
 
-// const data = [
-//     {
-//         id: 1,
-//         author: {
-//             userName: "Антон Дымов",
-//             src: "http://archilab.online/images/1/123.jpg"
-//         },
-//         body: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus ducimus ea est facere impedit laboriosam nesciunt quo veniam. Delectus, quia.",
-//         isMeLiked: true,
-//         commentsCount: 51,
-//         likesCount: 112
-//     },
-//     {
-//         id: 2,
-//         author: {
-//             userName: "Антон Дымов",
-//             src: "http://archilab.online/images/1/123.jpg"
-//         },
-//         body: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus ducimus ea est facere impedit laboriosam nesciunt quo veniam. Delectus, quia.",
-//         isMeLiked: false,
-//         commentsCount: 2,
-//         likesCount: 16
-//     },
-//     {
-//         id: 3,
-//         author: {
-//             userName: "Антон Дымов",
-//             src: "http://archilab.online/images/1/123.jpg"
-//         },
-//         body: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus ducimus ea est facere impedit laboriosam nesciunt quo veniam. Delectus, quia.",
-//         isMeLiked: false,
-//         commentsCount: 0,
-//         likesCount: 0
-//     }
-// ];
+const Wall = ({isLoading, data, userId, activeId, createPost, deletePost, createLike, removeLike}) => {
 
-const Wall = ({data, userId, activeId}) => {
+    const [post, setPost] = useState("");
+
+    const handleChange = event => {
+        setPost(event.target.value);
+    };
+
+    const handleSubmit = () => {
+        if (post.trim().length > 0) {
+            createPost(post);
+        }
+        setPost("");
+    };
+
+    const onDeletePost = postId => {
+        deletePost(postId);
+    };
+
+    if (isLoading) {
+        return <Spinner/>
+    }
 
     return (
         <div className="wall">
             {userId === activeId
                 ? <div className="wall_new-post">
-                    <textarea className="form-control" rows={3} placeholder="О чём думаете?"/>
-                    <button className="btn btn__primary ">Добавить</button>
+                    <textarea
+                        className="form-control"
+                        onChange={handleChange}
+                        value={post}
+                        rows={3}
+                        placeholder="О чём думаете?"
+                    />
+                    <button className="btn btn__primary" onClick={handleSubmit}>Добавить</button>
                 </div>
                 : null}
             <div className="wall_posts">
@@ -53,12 +46,16 @@ const Wall = ({data, userId, activeId}) => {
                     data.length !== 0
                         ? data.map(p =>
                             <Post
-                                key={p.id}
-                                author={p.author}
+                                postId={p._id}
+                                key={p._id}
+                                user={p.user}
                                 body={p.body}
-                                isMeLiked={p.isMeLiked}
-                                commentsCount={p.commentsCount}
-                                likeCounts={p.likesCount}
+                                likes={p.likes}
+                                authUserId={userId}
+                                activeUserId={activeId}
+                                deletePost={onDeletePost}
+                                createLike={createLike}
+                                removeLike={removeLike}
                             />)
                         : <p className="subtext" style={{textAlign: "center"}}>На стене нет записей</p>
                 }
@@ -68,8 +65,9 @@ const Wall = ({data, userId, activeId}) => {
 }
 
 const mapStateToProps = state => ({
-    userId: state.auth.user.userId,
-    activeId: state.profile.profile.id
+    isLoading: state.appReducer.isLoading,
+    userId: state.authReducer.user.userId,
+    activeId: state.profileReducer.profile.id
 });
 
-export default connect(mapStateToProps)(Wall);
+export default connect(mapStateToProps, {createPost, deletePost, createLike, removeLike})(Wall);

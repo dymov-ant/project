@@ -68,8 +68,8 @@ const Header = ({isAuth, isMobile, showSidebar, setShowSidebar, logout}) => {
 }
 
 const mapStateToProps = state => ({
-    isMobile: state.app.isMobile,
-    showSidebar: state.app.showSidebar,
+    isMobile: state.appReducer.isMobile,
+    showSidebar: state.appReducer.showSidebar,
     // userName: state.profile.profile.name
 });
 

@@ -65,7 +65,7 @@ const Sidebar = ({isMobile, setShowSidebar}) => {
 }
 
 const mapStateToProps = state => ({
-    isMobile: state.app.isMobile
+    isMobile: state.appReducer.isMobile
 });
 
 export default connect(mapStateToProps, {setShowSidebar})(Sidebar);
