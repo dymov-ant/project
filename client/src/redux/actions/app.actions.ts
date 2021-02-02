@@ -1,55 +1,42 @@
-import {MOBILE_MODE, SET_APP_READY, SET_SIDEBAR_VISIBLE} from "./types"
+import {SET_INITIALIZED, SET_MESSAGE} from "./types"
 import {ThunkAction} from "redux-thunk"
 import {GlobalState} from "../store"
+import {ICurrentUser, IMessage, ISetCurrentUser, ISetMessage} from "../../types/types"
 import jwtDecode from "jwt-decode"
-import {logout, setCurrentUser, TSetCurrentUser} from "./auth.actions"
-import {CurrentUserType} from "../../types/types"
+import {logout, setCurrentUser} from "./auth.actions"
 
-
-export type AppActionsTypes = TSetMobileMode | TSetSidebarVisible | TSetAppReady
-
-type TSetMobileMode = {
-    type: typeof MOBILE_MODE
-    payload: boolean
+interface ISetInitialized {
+    type: typeof SET_INITIALIZED
+    isInitialized: boolean
 }
-export const setMobileMode = (isMobile: boolean): TSetMobileMode => ({
-    type: MOBILE_MODE,
-    payload: isMobile
+
+export type AppActionsTypes = ISetInitialized | ISetMessage | ISetCurrentUser
+type AppThunkCreatorType = ThunkAction<Promise<void>, GlobalState, unknown, AppActionsTypes>
+
+const setInitialized = (isInitialized: boolean): ISetInitialized => ({
+    type: SET_INITIALIZED,
+    isInitialized
 })
 
-type TSetSidebarVisible = {
-    type: typeof SET_SIDEBAR_VISIBLE
-    payload: boolean
-}
-export const setSidebarVisible = (isVisible: boolean): TSetSidebarVisible => ({
-    type: SET_SIDEBAR_VISIBLE,
-    payload: isVisible
+export const setMessage = (message: IMessage | null): ISetMessage => ({
+    type: SET_MESSAGE,
+    message
 })
 
-type TSetAppReady = {
-    type: typeof SET_APP_READY
-    payload: boolean
-}
-export const setAppReady = (isReady: boolean): TSetAppReady => ({
-    type: SET_APP_READY,
-    payload: isReady
-})
-
-type AppThunkCreatorType = ThunkAction<Promise<void>, GlobalState, unknown, AppActionsTypes | TSetCurrentUser>
-
-export const initialize = (history: any): AppThunkCreatorType => async dispatch => {
+export const initialization = (history: any): AppThunkCreatorType => async dispatch => {
     if (localStorage.access_token) {
         const {access_token} = localStorage
-        const decoded: CurrentUserType = jwtDecode(access_token)
+        const decoded: ICurrentUser = jwtDecode(access_token)
         dispatch(setCurrentUser(decoded))
         const currentTime = Date.now() / 1000
         if (decoded.exp && decoded.exp < currentTime) {
-            dispatch(logout())
+            await dispatch(logout())
             history.push("/login")
         }
-    } else {
-        dispatch(logout())
-        history.push("/login")
     }
-    dispatch(setAppReady(true))
+    // else {
+    //     await dispatch(logout())
+    //     history.push("/login")
+    // }
+    dispatch(setInitialized(true))
 }

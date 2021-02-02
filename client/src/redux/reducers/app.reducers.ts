@@ -1,29 +1,31 @@
-import {MOBILE_MODE, SET_APP_READY, SET_SIDEBAR_VISIBLE} from "../actions/types"
 import {AppActionsTypes} from "../actions/app.actions"
+import {SET_INITIALIZED, SET_MESSAGE} from "../actions/types"
+import {IMessage} from "../../types/types"
 
-const initialState = {
-    mobileMode: false,
-    sidebarVisible: true,
-    appReady: false
+interface IAppState {
+    isInitialized: boolean
+    message: IMessage | null
 }
-type TAppState = typeof initialState
 
-export const appReducer = (state = initialState, action: AppActionsTypes): TAppState => {
+const initialState: IAppState = {
+    isInitialized: false,
+    message: {
+        type: "error",
+        body: ""
+    }
+}
+
+export const appReducer = (state = initialState, action: AppActionsTypes): IAppState => {
     switch (action.type) {
-        case MOBILE_MODE:
+        case SET_INITIALIZED:
             return {
                 ...state,
-                mobileMode: action.payload
+                isInitialized: action.isInitialized
             }
-        case SET_SIDEBAR_VISIBLE:
+        case SET_MESSAGE:
             return {
                 ...state,
-                sidebarVisible: action.payload
-            }
-        case SET_APP_READY:
-            return {
-                ...state,
-                appReady: action.payload
+                message: action.message
             }
         default:
             return state

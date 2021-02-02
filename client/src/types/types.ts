@@ -1,4 +1,39 @@
-export type ProfileType = {
+import {SET_CURRENT_USER, SET_MESSAGE} from "../redux/actions/types"
+
+export interface ILoginData {
+    email: string
+    password: string
+}
+
+export interface IRegisterData {
+    name: string
+    email: string
+    password: string
+    birthDate: string
+}
+
+export interface ICurrentUser {
+    userId: string | null
+    iat: number | null
+    exp: number | null
+}
+
+export interface ISetCurrentUser {
+    type: typeof SET_CURRENT_USER
+    payload: ICurrentUser
+}
+
+export interface IMessage {
+    type: "success" | "error"
+    body: string
+}
+
+export interface ISetMessage {
+    type: typeof SET_MESSAGE
+    message: IMessage | null
+}
+
+export interface IProfile {
     email: string | null,
     name: string | null,
     birthDate: string | null,
@@ -11,50 +46,16 @@ export type ProfileType = {
     id: string | null
 }
 
-export type LikeType = {
+export interface LikeType {
     id: string
-    user: ProfileType
+    user: IProfile
     createdDate: string
 }
 
-export type PostType = {
+export interface IPost {
     id: string
     body: string
     createdDate: string
-    user: ProfileType
+    user: IProfile
     likes: Array<LikeType>
-}
-
-export type CurrentUserType = {
-    userId: string | null
-    userName: string | null
-    iat: number | null
-    exp: number | null
-}
-
-export type UpdateProfileType = {
-    name: string
-    email: string
-    birthDate: string
-    city: string | null
-    maritalStatus: string | null
-    education: string | null
-    job: string | null
-}
-
-export type LoginDataType = {
-    email: string
-    password: string
-}
-
-export type RegisterDataType = {
-    name: string
-    email: string
-    password: string
-    birthDate: string
-}
-
-export type UpdatePasswordDataType = {
-    password: string
-    password2: string
 }

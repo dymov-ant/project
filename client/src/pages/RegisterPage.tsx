@@ -91,7 +91,6 @@ export const RegisterPage: FC = () => {
                                 variant="outlined"
                                 required
                                 fullWidth
-                                autoFocus
                                 label="Имя и фамилия"
                                 size="small"
                                 helperText={(errors.name && touched.name) && errors.name}

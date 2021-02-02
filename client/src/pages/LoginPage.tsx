@@ -13,6 +13,10 @@ import {makeStyles} from "@material-ui/core/styles"
 import Container from "@material-ui/core/Container"
 import LinearProgress from "@material-ui/core/LinearProgress"
 import Grid from "@material-ui/core/Grid"
+import {useDispatch, useSelector} from "react-redux"
+import {login} from "../redux/actions/auth.actions"
+import {ILoginData} from "../types/types"
+import {GlobalState} from "../redux/store"
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -50,6 +54,8 @@ const LoginSchema = Yup.object().shape({
 
 export const LoginPage: FC = () => {
     const classes = useStyles()
+    const dispatch = useDispatch()
+    const isLoading = useSelector((state: GlobalState) => state.authReducer.isAuthLoading)
 
     return (
         <Container component="main" maxWidth="xs">
@@ -66,21 +72,23 @@ export const LoginPage: FC = () => {
                         password: ""
                     }}
                     validationSchema={LoginSchema}
-                    onSubmit={(values, {setSubmitting}) => {
-                        setTimeout(() => {
-                            setSubmitting(false)
-                            alert(JSON.stringify(values, null, 2))
-                        }, 5000)
+                    onSubmit={(values: ILoginData) => {
+                        dispatch(login(values))
+                        // setTimeout(() => {
+                        //     setSubmitting(false)
+                        //     alert(JSON.stringify(values, null, 2))
+                        // }, 500)
                     }}
                 >
-                    {({submitForm, isSubmitting, errors, touched}) => (
+                    {({submitForm, errors, touched}) => (
                         <Form className={classes.form} noValidate>
                             <Field
                                 type="email"
                                 name="email"
                                 component={TextField}
-                                required
                                 variant="outlined"
+                                disabled={isLoading}
+                                required
                                 fullWidth
                                 label="Email"
                                 size="small"
@@ -92,6 +100,7 @@ export const LoginPage: FC = () => {
                                 name="password"
                                 component={TextField}
                                 variant="outlined"
+                                disabled={isLoading}
                                 required
                                 fullWidth
                                 label="Пароль"
@@ -99,18 +108,18 @@ export const LoginPage: FC = () => {
                                 helperText={(errors.password && touched.password) && errors.password}
                                 className={classes.margin}
                             />
-                            {isSubmitting && <LinearProgress/>}
+                            {isLoading && <LinearProgress/>}
                             <Button
                                 onClick={submitForm}
                                 fullWidth
                                 variant="contained"
                                 color="primary"
-                                disabled={isSubmitting}
+                                disabled={isLoading}
                                 className={classes.submit}
                             >
                                 Войти
                             </Button>
-                            {!isSubmitting && <Grid container justify="flex-end">
+                            {!isLoading && <Grid container justify="flex-end">
                                 <Grid item>
                                     <MuiLink variant="body2" component={Link} to="/register">
                                         Нет аккаунта? Пройди регистрацию!

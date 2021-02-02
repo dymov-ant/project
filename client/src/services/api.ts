@@ -1,84 +1,55 @@
 import axios from "axios"
-import {
-    LoginDataType,
-    PostType,
-    ProfileType,
-    RegisterDataType,
-    UpdatePasswordDataType,
-    UpdateProfileType
-} from "../types/types";
+import {ILoginData, IPost, IRegisterData} from "../types/types"
 
 const api = axios.create({
-    baseURL: "http://react-project.ru/api/v1/",
+    baseURL: "/api/v1/",
     headers: {
         "Content-Type": "application/JSON"
     }
 })
 
 api.interceptors.request.use(function (config) {
-    const {access_token} = localStorage;
-    config.headers.Authorization = access_token ? `Bearer ${access_token}` : "";
-    return config;
-});
+    const {access_token} = localStorage
+    config.headers.Authorization = access_token ? `Bearer ${access_token}` : ""
+    return config
+})
 
+interface IResponse {
+    message?: string
+    errors?: string[]
+}
 
-type LoginResponseType = {
+interface ILoginResponse extends IResponse {
     token: string
-    message?: string
 }
-type PostResponseType = {
-    post: PostType
-    message?: string
-}
-type MessageResponseType = {
-    message: string
-    errors?: Array<string>
+
+interface IPostResponse extends IResponse {
+    post: IPost
 }
 
 export const authAPI = {
-    login(userData: LoginDataType) {
-        return api.post<LoginResponseType>("auth/login", userData)
+    login(userData: ILoginData) {
+        return api.post<ILoginResponse>("auth/login", userData)
     },
-    register(userData: RegisterDataType) {
-        return api.post<MessageResponseType>("auth/register", userData)
-    }
-}
-
-export const profileAPI = {
-    getProfile(id: string) {
-        return api.get<ProfileType>("profile", {params: {id}})
-    },
-    updateProfile(profileData: UpdateProfileType) {
-        return api.put<MessageResponseType>(`profile/edit`, profileData)
-    },
-    // todo Типизировать file
-    updateUserPhoto(file: any) {
-        return api.post<MessageResponseType>(`profile/edit/photo`, file, {
-            headers: {"Content-Type":"multipart/form-data"}
-        })
-    },
-    updatePassword(passwords: UpdatePasswordDataType) {
-        return api.post<MessageResponseType>(`profile/edit/password`, passwords)
-    },
-    updateStatus(status: string) {
-        return api.post<MessageResponseType>(`/profile/edit/status`, {status})
+    register(userData: IRegisterData) {
+        return api.post<IResponse>("auth/register", userData)
     }
 }
 
 export const postsAPI = {
     getPosts(userId: string) {
-        return api.get<Array<PostType>>("/posts", {params: {userId}})
+        return api.get<IPost[]>("/posts", {params: {userId}})
     },
-    addPost(post: PostType) {
-        return api.post<PostResponseType>("/posts/add", {body: post})
+    addPost(post: IPost) {
+        return api.post<IResponse>("/posts/add", {body: post})
     },
     deletePost(postId: string) {
-        return api.delete<MessageResponseType>("/posts/delete/" + postId)
+        return api.delete<IResponse>("/posts/delete/" + postId)
     },
     createLike(postId: string) {
-        return api.post<PostResponseType>(`/posts/${postId}/likes`)
+        return api.post<IResponse>(`/posts/${postId}/likes`)
     },
     removeLike(postId: string, likeId: string) {
-        return api.delete<PostResponseType>(`/posts/${postId}/likes/${likeId}`)
+        return api.delete<IPostResponse>(`/posts/${postId}/likes/${likeId}`)
     }
 }
