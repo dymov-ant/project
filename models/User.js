@@ -13,7 +13,7 @@ const schema = new Schema({
     education: {type: String, default: null},
     job: {type: String, default: null},
     dateCreator: {type: Date, default: Date.now},
-    posts: [{type: Types.ObjectId, ref: 'Post'}]
+    // posts: [{type: Types.ObjectId, ref: 'Post'}]
 });
 
 module.exports = model('User', schema);

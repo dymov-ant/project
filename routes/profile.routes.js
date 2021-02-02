@@ -21,7 +21,7 @@ router.get("/", auth, async (req, res) => {
         if (!profile) {
             return res.status(404).json({message: "Профиль не найден!"});
         }
-        const {_id, email, name, photo, status, birthDate, city, maritalStatus, education, job, posts} = profile;
+        const {_id, email, name, photo, status, birthDate, city, maritalStatus, education, job} = profile;
         res.json({
             id: _id,
             email,
@@ -32,8 +32,7 @@ router.get("/", auth, async (req, res) => {
             city,
             maritalStatus,
             education,
-            job,
-            posts
+            job
         });
     } catch (e) {
         res.status(500).json({message: 'Что-то пошло не так, попробуйте ещё раз!'});
@@ -53,7 +52,7 @@ router.put(
             if (!errors.isEmpty()) {
                 return res.status(400).json({
                     errors: errors.array(),
-                    message: "Некорректные данные при регистрации!"
+                    message: "Некорректные данные!"
                 });
             }
 
