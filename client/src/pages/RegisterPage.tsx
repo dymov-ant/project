@@ -1,6 +1,6 @@
 import React, {FC} from "react"
 import {Field, Form, Formik} from "formik"
-import {Link} from "react-router-dom"
+import { Link, useHistory } from "react-router-dom"
 import Avatar from "@material-ui/core/Avatar"
 import Button from "@material-ui/core/Button"
 import {TextField} from "formik-material-ui"
@@ -13,6 +13,9 @@ import MuiLink from "@material-ui/core/Link"
 import LinearProgress from "@material-ui/core/LinearProgress"
 import {DatePickerField} from "../components/interface/DatePickerField"
 import * as Yup from "yup"
+import { useDispatch, useSelector } from "react-redux"
+import { register } from "../redux/actions/auth"
+import { GlobalState } from "../redux/store"
 
 
 const useStyles = makeStyles((theme) => ({
@@ -27,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.secondary.main,
     },
     form: {
-        width: "100%", // Fix IE 11 issue.
+        width: "100%",
         marginTop: theme.spacing(3),
     },
     margin: {
@@ -57,6 +60,9 @@ const RegisterSchema = Yup.object().shape({
 
 export const RegisterPage: FC = () => {
     const classes = useStyles()
+    const history = useHistory()
+    const isLoading = useSelector((state: GlobalState) => state.authReducer.isAuthLoading)
+    const dispatch = useDispatch()
 
     return (
         <Container component="main" maxWidth="xs">
@@ -75,20 +81,18 @@ export const RegisterPage: FC = () => {
                         birthDate: new Date()
                     }}
                     validationSchema={RegisterSchema}
-                    onSubmit={(values, {setSubmitting}) => {
-                        setTimeout(() => {
-                            setSubmitting(false)
-                            alert(JSON.stringify(values, null, 2))
-                        }, 5000)
+                    onSubmit={(values) => {
+                        dispatch(register(values, history))
                     }}
                 >
-                    {({submitForm, isSubmitting, errors, touched}) => (
+                    {({submitForm, errors, touched}) => (
                         <Form className={classes.form} noValidate>
                             <Field
                                 type="text"
                                 name="name"
                                 component={TextField}
                                 variant="outlined"
+                                disabled={isLoading}
                                 required
                                 fullWidth
                                 label="Имя и фамилия"
@@ -100,8 +104,9 @@ export const RegisterPage: FC = () => {
                                 type="email"
                                 name="email"
                                 component={TextField}
-                                required
                                 variant="outlined"
+                                disabled={isLoading}
+                                required
                                 fullWidth
                                 label="Email"
                                 size="small"
@@ -113,6 +118,7 @@ export const RegisterPage: FC = () => {
                                 name="password"
                                 component={TextField}
                                 variant="outlined"
+                                disabled={isLoading}
                                 required
                                 fullWidth
                                 label="Пароль"
@@ -124,26 +130,26 @@ export const RegisterPage: FC = () => {
                                 type="text"
                                 name="birthDate"
                                 component={DatePickerField}
+                                disabled={isLoading}
                                 required
                                 fullWidth
                                 label="Дата рождения"
                                 size="small"
-                                disabled={isSubmitting}
                                 helperText={(errors.birthDate && touched.birthDate) && errors.birthDate}
                                 className={classes.margin}
                             />
-                            {isSubmitting && <LinearProgress/>}
+                            {isLoading && <LinearProgress/>}
                             <Button
                                 onClick={submitForm}
                                 fullWidth
                                 variant="contained"
                                 color="primary"
-                                disabled={isSubmitting}
+                                disabled={isLoading}
                                 className={classes.submit}
                             >
                                 Регистрация
                             </Button>
-                            {!isSubmitting && <Grid container justify="flex-end">
+                            {!isLoading && <Grid container justify="flex-end">
                                 <Grid item>
                                     <MuiLink variant="body2" component={Link} to="/login">
                                         Уже есть аккаунт? Войти!

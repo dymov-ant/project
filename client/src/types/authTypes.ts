@@ -10,7 +10,7 @@ export interface IRegisterData {
     name: string
     email: string
     password: string
-    birthDate: string
+    birthDate: Date
 }
 
 export interface ILoginResponse {

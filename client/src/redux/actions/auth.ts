@@ -1,9 +1,16 @@
 import jwtDecode from "jwt-decode"
 import { ThunkAction } from "redux-thunk"
-import { AuthActionsTypes, ICurrentUser, ILoginData, ISetAuthLoading, ISetCurrentUser } from "../../types/authTypes"
+import {
+    AuthActionsTypes,
+    ICurrentUser,
+    ILoginData,
+    IRegisterData,
+    ISetAuthLoading,
+    ISetCurrentUser
+} from "../../types/authTypes"
 import { SET_AUTH_LOADING, SET_CURRENT_USER } from "./types"
 import { GlobalState } from "../store"
-import { loginAPI } from "../../services/api/authAPI"
+import { loginAPI, registerAPI } from "../../services/api/authAPI"
 import { ACCESS_TOKEN } from "../../constants"
 import { setMessage } from "./app"
 
@@ -33,7 +40,26 @@ export const login = (payload: ILoginData): AuthThunkType => async dispatch => {
     } catch (e) {
         const response = e.response
         if (response.data.message) {
-        dispatch(setMessage({ type: "error", body: response.data.message }))
+            dispatch(setMessage({ type: "error", body: response.data.message }))
+        }
+        dispatch(setAuthLoading(false))
+    }
+}
+
+export const register = (payload: IRegisterData, history: any): AuthThunkType => async dispatch => {
+    dispatch(setAuthLoading(true))
+    try {
+        const response = await registerAPI(payload)
+        if (response.status === 201) {
+            dispatch(setMessage({ type: "success", body: "Пользователь создан, войдите в аккаунт!" }))
+            history.push("/login")
+            dispatch(setAuthLoading(false))
+        }
+    } catch (e) {
+        const response = e.response
+        console.log(response)
+        if (response.data) {
+            dispatch(setMessage({ type: "error", body: response.data.message }))
         }
         dispatch(setAuthLoading(false))
     }
