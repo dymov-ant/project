@@ -10,7 +10,8 @@ import {
 } from "../../types/authTypes"
 import { SET_AUTH_LOADING, SET_CURRENT_USER } from "./types"
 import { GlobalState } from "../store"
-import { loginAPI, registerAPI } from "../../services/api/authAPI"
+// import { loginAPI, registerAPI } from "../../services/api/authAPI"
+import authAPI from "../../services/api/authAPI"
 import { ACCESS_TOKEN } from "../../constants"
 import { setMessage } from "./app"
 
@@ -29,7 +30,7 @@ const setAuthLoading = (isLoading: boolean): ISetAuthLoading => ({
 export const login = (payload: ILoginData): AuthThunkType => async dispatch => {
     dispatch(setAuthLoading(true))
     try {
-        const response = await loginAPI(payload)
+        const response = await authAPI.login(payload)
         if (response.status === 200) {
             const { token } = response.data
             localStorage.setItem(ACCESS_TOKEN, token)
@@ -49,7 +50,7 @@ export const login = (payload: ILoginData): AuthThunkType => async dispatch => {
 export const register = (payload: IRegisterData, history: any): AuthThunkType => async dispatch => {
     dispatch(setAuthLoading(true))
     try {
-        const response = await registerAPI(payload)
+        const response = await authAPI.register(payload)
         if (response.status === 201) {
             dispatch(setMessage({ type: "success", body: "Пользователь создан, войдите в аккаунт!" }))
             history.push("/login")

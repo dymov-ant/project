@@ -3,7 +3,11 @@ export const SET_MESSAGE = "app/SET_MESSAGE"
 
 export const SET_AUTH_LOADING = "auth/SET_AUTH_LOADING"
 export const SET_CURRENT_USER = "auth/SET_CURRENT_USER"
-//
+
+export const SET_PROFILE_LOADING = "profile/SET_PROFILE_LOADING"
+export const SET_PROFILE = "profile/SET_PROFILE"
+
+
 // export const SET_PROFILE_LOADING = "profile/SET_PROFILE_LOADING"
 // export const SET_PROFILE = "profile/SET_PROFILE"
 // export const SET_STATUS = "profile/SET_STATUS"

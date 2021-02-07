@@ -1,5 +1,6 @@
 import { SET_AUTH_LOADING, SET_CURRENT_USER } from "../redux/actions/types"
 import { ISetMessage } from "./appTypes"
+import { IProfile } from "./profileTypes"
 
 export interface ILoginData {
     email: string
@@ -18,7 +19,7 @@ export interface ILoginResponse {
 }
 
 export interface ICurrentUser {
-    userId: string
+    profile: IProfile
     iat: number
     exp: number
 }

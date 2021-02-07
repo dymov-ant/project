@@ -12,7 +12,7 @@ export const useRoutes: (isAuth: boolean) => ReactElement = (isAuth: boolean) =>
     if (isAuth) {
         return (
             <Switch>
-                <Route path="/profile">
+                <Route path="/profile/:userId?">
                     <ProfilePage/>
                 </Route>
                 <Route path="/friends" exact>

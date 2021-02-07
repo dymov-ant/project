@@ -1,11 +1,11 @@
-const {check, validationResult} = require("express-validator");
-const {Router} = require("express");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const config = require("config");
-const User = require("../models/User");
+const {check, validationResult} = require("express-validator")
+const {Router} = require("express")
+const bcrypt = require("bcryptjs")
+const jwt = require("jsonwebtoken")
+const config = require("config")
+const User = require("../models/User")
 
-const router = Router();
+const router = Router()
 
 // /api/auth/register
 router.post(
@@ -17,29 +17,29 @@ router.post(
     ],
     async (req, res) => {
         try {
-            const errors = validationResult(req);
+            const errors = validationResult(req)
             if (!errors.isEmpty()) {
                 return res.status(400).json({
                     errors: errors.array(),
                     message: "Некорректные данные при регистрации!"
-                });
+                })
             }
 
-            const {name, email, password, birthDate} = req.body;
-            const candidate = await User.findOne({email});
+            const {name, email, password, birthDate} = req.body
+            const candidate = await User.findOne({email})
             if (candidate) {
-                res.status(400).json({message: "Такой пользователь уже существует"});
+                return res.status(400).json({message: "Такой пользователь уже существует"})
             }
 
-            const hashedPassword = await bcrypt.hash(password, 12);
-            const newUser = new User({name, email, password: hashedPassword, birthDate});
-            await newUser.save();
-            res.status(201).json({message: "Пользователь создан!"});
+            const hashedPassword = await bcrypt.hash(password, 12)
+            const newUser = new User({name, email, password: hashedPassword, birthDate})
+            await newUser.save()
+            res.status(201).json({message: "Пользователь создан!"})
         } catch (e) {
-            res.status(500).json({message: 'Что-то пошло не так, попробуйте ещё раз!'});
+            res.status(500).json({message: "Что-то пошло не так, попробуйте ещё раз!"})
         }
     }
-);
+)
 
 // /api/auth/login
 router.post(
@@ -50,35 +50,38 @@ router.post(
     ],
     async (req, res) => {
         try {
-            const errors = validationResult(req);
+            const errors = validationResult(req)
             if (!errors.isEmpty()) {
                 return res.status(400).json({
                     errors: errors.array(),
                     message: "Некорректные данные при входе в систему!"
-                });
+                })
             }
 
-            const {email, password} = req.body;
-            const user = await User.findOne({email});
+            const {email, password} = req.body
+            const user = await User.findOne({email})
             if (!user) {
-                return res.status(400).json({message: "Пользователь не найден!"});
+                return res.status(400).json({message: "Пользователь не найден!"})
             }
 
-            const isMatch = await bcrypt.compare(password, user.password);
+            const isMatch = await bcrypt.compare(password, user.password)
             if (!isMatch) {
-                return res.status(400).json({message: "Неверный пароль, попробуйте ещё раз!"});
+                return res.status(400).json({message: "Неверный пароль, попробуйте ещё раз!"})
             }
-
+            const profile = user.toObject()
+            profile.id = profile._id
+            delete  profile._id
+            delete profile.password
             const token = jwt.sign(
-                {userId: user.id},
+                {profile},
                 config.get("jwtSecret"),
                 {expiresIn: "1h"}
-            );
-            res.json({token, userId: user.id});
+            )
+            res.json({token})
         } catch (e) {
-            res.status(500).json({message: 'Что-то пошло не так, попробуйте ещё раз!'});
+            res.status(500).json({message: "Что-то пошло не так, попробуйте ещё раз!"})
         }
     }
 )
 
-module.exports = router;
+module.exports = router
