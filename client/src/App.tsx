@@ -12,7 +12,7 @@ import {useRoutes} from "./routes"
 import {MobileNavbar} from "./components/MobileNavbar"
 import {Notification} from "./components/Notification"
 import {GlobalState} from "./redux/store"
-import {initialization} from "./redux/actions/app.actions"
+import { initialization } from "./redux/actions/app"
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({

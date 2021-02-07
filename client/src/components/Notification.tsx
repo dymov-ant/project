@@ -1,10 +1,10 @@
 import React, {FC, SyntheticEvent, useState} from "react"
+import {useDispatch} from "react-redux"
 import Snackbar from "@material-ui/core/Snackbar"
 import MuiAlert, {AlertProps} from "@material-ui/lab/Alert"
 import {makeStyles, Theme} from "@material-ui/core/styles"
-import {IMessage} from "../types/types"
-import {useDispatch} from "react-redux"
-import {setMessage} from "../redux/actions/app.actions"
+import { IMessage } from "../types/appTypes"
+import { setMessage } from "../redux/actions/app"
 
 function Alert(props: AlertProps) {
     return <MuiAlert elevation={6} variant="filled" {...props} />

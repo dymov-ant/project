@@ -14,9 +14,9 @@ import Container from "@material-ui/core/Container"
 import LinearProgress from "@material-ui/core/LinearProgress"
 import Grid from "@material-ui/core/Grid"
 import {useDispatch, useSelector} from "react-redux"
-import {login} from "../redux/actions/auth.actions"
-import {ILoginData} from "../types/types"
 import {GlobalState} from "../redux/store"
+import { ILoginData } from "../types/authTypes"
+import { login } from "../redux/actions/auth"
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -74,10 +74,6 @@ export const LoginPage: FC = () => {
                     validationSchema={LoginSchema}
                     onSubmit={(values: ILoginData) => {
                         dispatch(login(values))
-                        // setTimeout(() => {
-                        //     setSubmitting(false)
-                        //     alert(JSON.stringify(values, null, 2))
-                        // }, 500)
                     }}
                 >
                     {({submitForm, errors, touched}) => (

@@ -1,20 +1,15 @@
-import {SET_AUTH_LOADING, SET_CURRENT_USER} from "../actions/types"
-import {AuthActionsTypes} from "../actions/auth.actions"
-import {ICurrentUser} from "../../types/types"
+import { AuthActionsTypes, ICurrentUser } from "../../types/authTypes"
+import { SET_AUTH_LOADING, SET_CURRENT_USER } from "../actions/types"
 
 interface IAuthState {
     isAuthenticated: boolean
-    currentUser: ICurrentUser
+    currentUser: ICurrentUser | null
     isAuthLoading: boolean
 }
 
 const initialState: IAuthState = {
+    currentUser: null,
     isAuthenticated: false,
-    currentUser: {
-        userId: null,
-        iat: null,
-        exp: null
-    },
     isAuthLoading: false
 }
 
@@ -23,15 +18,14 @@ export const authReducer = (state = initialState, action: AuthActionsTypes): IAu
         case SET_CURRENT_USER:
             return {
                 ...state,
-                isAuthenticated: !!action.payload.userId,
+                isAuthenticated: !!action.payload,
                 currentUser: action.payload
             }
-        case SET_AUTH_LOADING: {
+        case SET_AUTH_LOADING:
             return {
                 ...state,
                 isAuthLoading: action.isLoading
             }
-        }
         default:
             return state
     }
