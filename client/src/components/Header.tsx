@@ -11,6 +11,9 @@ import MenuItem from "@material-ui/core/MenuItem"
 import Menu from "@material-ui/core/Menu"
 import Container from "@material-ui/core/Container"
 import Avatar from "@material-ui/core/Avatar"
+import { useSelector } from "react-redux"
+import { GlobalState } from "../redux/store"
+import noAvatar from "../common/no-avatar.png"
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -39,6 +42,7 @@ export const Header: FC<IHeaderProps> = ({isAuth}) => {
     const classes = useStyles()
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
     const open = Boolean(anchorEl)
+    const src = useSelector((state: GlobalState) => state.profileReducer.profile?.photo)
 
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget)
@@ -65,8 +69,7 @@ export const Header: FC<IHeaderProps> = ({isAuth}) => {
                                     onClick={handleMenu}
                                     color="inherit"
                                 >
-                                    <Avatar src="https://www.ejin.ru/wp-content/uploads/2018/10/crew4_1024.png"
-                                            className={classes.smallAvatar}/>
+                                    <Avatar src={src || noAvatar} className={classes.smallAvatar}/>
                                 </IconButton>
                                 <Menu
                                     id="menu-appbar"

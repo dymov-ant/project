@@ -1,6 +1,6 @@
-import React, {FC} from "react"
-import {Link} from "react-router-dom"
-import {createStyles, makeStyles, Theme} from "@material-ui/core/styles"
+import React, { FC } from "react"
+import { Link } from "react-router-dom"
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 import Card from "@material-ui/core/Card"
 import CardHeader from "@material-ui/core/CardHeader"
 import CardContent from "@material-ui/core/CardContent"
@@ -13,6 +13,10 @@ import DeleteIcon from "@material-ui/icons/Delete"
 import CommentIcon from "@material-ui/icons/Comment"
 import MuiLink from "@material-ui/core/Link"
 import Divider from "@material-ui/core/Divider"
+import noAvatar from "../../common/no-avatar.png"
+import { IPost } from "../../types/postsTypes"
+import { useSelector } from "react-redux"
+import { GlobalState } from "../../redux/store"
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -28,29 +32,17 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 )
 
-interface IPostAuthor {
-    id: string
-    name: string
-    src: string
-}
-
-interface IPost {
-    author: IPostAuthor
-    date: string
-    body: string
-    likeCount: number
-    myLiked: boolean
-}
-
-export const Post: FC<IPost> = ({author, date, body, likeCount, myLiked}) => {
+export const Post: FC<IPost> = ({user, body, createdDate, likes}) => {
     const classes = useStyles()
+    const currentUserId = useSelector((state: GlobalState) => state.authReducer.currentUser?.profile.id)
+    const existedLike = likes.find(like => like.user.id === currentUserId)
 
     return (
         <Card className={classes.root}>
             <CardHeader
                 avatar={
-                    <Link to={`/profile/${author.id}`}>
-                        <Avatar src={author.src}/>
+                    <Link to={`/profile/${user.id}`}>
+                        <Avatar src={user.photo || noAvatar }/>
                     </Link>
                 }
                 action={
@@ -62,12 +54,12 @@ export const Post: FC<IPost> = ({author, date, body, likeCount, myLiked}) => {
                     <MuiLink
                         color="primary"
                         component={Link}
-                        to={`/profile/${author.id}`}
+                        to={`/profile/${user.id}`}
                     >
-                        {author.name}
+                        {user.name}
                     </MuiLink>
                 }
-                subheader={date}
+                subheader={createdDate}
             />
             <Divider variant="middle"/>
             <CardContent>
@@ -78,9 +70,9 @@ export const Post: FC<IPost> = ({author, date, body, likeCount, myLiked}) => {
             <Divider variant="middle"/>
             <CardActions disableSpacing className={classes.actionsWrapper}>
                 <IconButton aria-label="like">
-                    {myLiked ? <FavoriteIcon color="secondary"/> : <FavoriteIcon/>}
-                    <Typography variant="body2" className={classes.likeCount} color={myLiked ? "secondary" : "inherit"}>
-                        {likeCount}
+                    {existedLike ? <FavoriteIcon color="secondary"/> : <FavoriteIcon/>}
+                    <Typography variant="body2" className={classes.likeCount} color={existedLike ? "secondary" : "inherit"}>
+                        {likes.length}
                     </Typography>
                 </IconButton>
                 <IconButton aria-label="comment">

@@ -4,7 +4,7 @@ import { ISetMessage } from "./appTypes"
 export interface IProfile {
     id: string | null
     name: string | null
-    birthDate: string | null
+    birthDate: Date
     status: string | null
     city: string | null
     maritalStatus: string | null

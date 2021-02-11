@@ -28,7 +28,7 @@ router.get("/", auth, async (req, res) => {
             name,
             photo,
             status,
-            birthDate: birthDate.toISOString().split("T")[0],
+            birthDate: new Date(birthDate),
             city,
             maritalStatus,
             education,

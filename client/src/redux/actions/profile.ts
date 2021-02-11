@@ -22,7 +22,7 @@ export const getProfile = (userId: string): ProfileThunkType => async dispatch =
     try {
         const response = await profileAPI.getProfile(userId)
         if (response.status === 200) {
-            setProfile(response.data)
+            dispatch(setProfile(response.data))
         }
         dispatch(setProfileLoading(false))
     } catch (e) {

@@ -9,11 +9,15 @@ import { useDispatch, useSelector } from "react-redux"
 import { GlobalState } from "../redux/store"
 import { getProfile } from "../redux/actions/profile"
 import { useHistory, useParams } from "react-router-dom"
+import CircularProgress from "@material-ui/core/CircularProgress"
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         paper: {
             padding: theme.spacing(1)
+        },
+        spinner: {
+            height: "90vh"
         }
     })
 )
@@ -26,14 +30,8 @@ export const ProfilePage: FC = () => {
     const classes = useStyles()
     const history = useHistory()
     const dispatch = useDispatch()
-    const currentId = useSelector((state: GlobalState) => {
-            if (state.authReducer.currentUser && state.authReducer.currentUser.profile) {
-                return state.authReducer.currentUser.profile.id
-            } else {
-                return ""
-            }
-        }
-    )
+    const currentId = useSelector((state: GlobalState) => state.authReducer.currentUser?.profile.id)
+    const isLoading = useSelector((state: GlobalState) => state.profileReducer.isProfileLoading)
     const { userId } = useParams<IUrlParams>()
 
     useEffect(() => {
@@ -42,8 +40,17 @@ export const ProfilePage: FC = () => {
         } else {
             history.push("/profile/" + currentId)
         }
-    }, [userId, currentId, dispatch])
+    }, [userId, currentId, dispatch, history])
 
+    if (isLoading) {
+        return (
+            <Grid container justify="center" alignItems="center" className={classes.spinner}>
+                <Grid item>
+                    <CircularProgress />
+                </Grid>
+            </Grid>
+        )
+    }
 
     return (
         <Grid container direction="column" spacing={2}>

@@ -1,63 +1,35 @@
 import {FC} from "react"
 import {Post} from "./Post"
 import {NewPost} from "./NewPost"
+import { IPost } from "../../types/postsTypes"
+import Typography from "@material-ui/core/Typography"
 
-const data = [
-    {
-        id: 1,
-        author: {
-            id: "asqqqqqda",
-            name: "Антон Дымов",
-            src: "https://www.ejin.ru/wp-content/uploads/2018/10/crew4_1024.png"
-        },
-        date: "31.01.2021",
-        body: "asdasd sa dasd as asd sdsadas asas d asdsa as das dsad as sadasas dasdasdasdas dasasa",
-        likeCount: 22,
-        myLiked: true
-    },
-    {
-        id: 2,
-        author: {
-            id: "asqqqqqda",
-            name: "Антон Дымов",
-            src: "https://www.ejin.ru/wp-content/uploads/2018/10/crew4_1024.png"
-        },
-        date: "22.01.2021",
-        body: "asdasd sa dasd as asd sdsadas asas d asdsa as das dsad as sadasas dasdasdasdas dasasa",
-        likeCount: 2,
-        myLiked: false
-    },
-    {
-        id: 3,
-        author: {
-            id: "asqqqqqda",
-            name: "Антон Дымов",
-            src: "https://www.ejin.ru/wp-content/uploads/2018/10/crew4_1024.png"
-        },
-        date: "11.01.2021",
-        body: "asdasd sa dasd as asd sdsadas asas d asdsa as das dsad as sadasas dasdasdasdas dasasa",
-        likeCount: 196,
-        myLiked: true
-    }
-]
+const data: IPost[] = []
 
 export const Wall: FC = () => {
 
     const posts = data.map(post =>
         <Post
             key={post.id}
-            author={post.author}
-            date={post.date}
+            user={post.user}
             body={post.body}
-            likeCount={post.likeCount}
-            myLiked={post.myLiked}
+            createdDate={post.createdDate}
+            likes={post.likes}
+            id={post.id}
         />
     )
 
     return (
         <>
             <NewPost/>
-            {posts}
+            {posts.length ? posts : <Typography
+                variant="subtitle1"
+                color="textSecondary"
+                align="center"
+                component="p"
+            >
+                Записей нет
+            </Typography>}
         </>
     )
 }
