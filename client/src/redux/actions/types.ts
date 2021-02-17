@@ -7,7 +7,11 @@ export const SET_CURRENT_USER = "auth/SET_CURRENT_USER"
 export const SET_PROFILE_LOADING = "profile/SET_PROFILE_LOADING"
 export const SET_PROFILE = "profile/SET_PROFILE"
 
-
+export const SET_POSTS_LOADING = "posts/SET_POSTS_LOADING"
+export const SET_POSTS = "posts/SET_POSTS"
+export const ADD_POST = "posts/ADD_POST"
+export const UPDATE_POST = "posts/UPDATE_POST"
+export const DELETE_POST = "posts/DELETE_POST"
 // export const SET_PROFILE_LOADING = "profile/SET_PROFILE_LOADING"
 // export const SET_PROFILE = "profile/SET_PROFILE"
 // export const SET_STATUS = "profile/SET_STATUS"

@@ -30,5 +30,6 @@ export const getProfile = (userId: string): ProfileThunkType => async dispatch =
         if (response.data.message) {
             dispatch(setMessage({ type: "error", body: response.data.message }))
         }
+        dispatch(setProfileLoading(false))
     }
 }
