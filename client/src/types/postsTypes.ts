@@ -3,13 +3,13 @@ import { ADD_POST, DELETE_POST, SET_POSTS, SET_POSTS_LOADING, UPDATE_POST } from
 import { ISetMessage } from "./appTypes"
 
 interface ILike {
-    id: string
-    user: IProfile
+    _id: string
+    user: string
     createdDate: string
 }
 
 export interface IPost {
-    id: string
+    _id: string
     body: string
     createdDate: string
     user: IProfile

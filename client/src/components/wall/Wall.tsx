@@ -1,27 +1,28 @@
 import {FC} from "react"
+import {useSelector} from "react-redux";
 import {Post} from "./Post"
 import {NewPost} from "./NewPost"
-import { IPost } from "../../types/postsTypes"
 import Typography from "@material-ui/core/Typography"
-
-const data: IPost[] = []
+import {GlobalState} from "../../redux/store";
 
 export const Wall: FC = () => {
-
+    const userId = useSelector((state: GlobalState) => state.profileReducer.profile?.id)
+    const currentId = useSelector((state: GlobalState) => state.authReducer.currentUser?.profile.id)
+    const data = useSelector((state: GlobalState) => state.postsReducer.posts)
     const posts = data.map(post =>
         <Post
-            key={post.id}
+            key={post._id}
             user={post.user}
             body={post.body}
             createdDate={post.createdDate}
             likes={post.likes}
-            id={post.id}
+            _id={post._id}
         />
     )
 
     return (
         <>
-            <NewPost/>
+            {userId === currentId && <NewPost/>}
             {posts.length ? posts : <Typography
                 variant="subtitle1"
                 color="textSecondary"

@@ -5,4 +5,6 @@ const GET_PROFILE_URL = "/profile"
 
 const getProfile = (userId: string) => api.get<IProfile>(GET_PROFILE_URL, { params: { id: userId } })
 
-export default { getProfile }
+const profileAPI = { getProfile }
+
+export default profileAPI

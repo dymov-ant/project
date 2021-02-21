@@ -18,7 +18,7 @@ router.get("/", auth, async (req, res) => {
 router.post("/add", auth, async (req, res) => {
     try {
         const {body} = req.body;
-        const post = new Post({body, user: req.user.userId});
+        const post = new Post({body, user: req.user.id});
         await post.save();
         res.status(201).json({post});
     } catch (e) {
@@ -30,7 +30,7 @@ router.post("/add", auth, async (req, res) => {
 router.delete("/delete/:_id", auth, async (req, res) => {
     try {
         const {_id} = req.params;
-        const user = req.user.userId;
+        const user = req.user.id;
         await Post.findOneAndRemove({_id, user});
         res.json({message: "Пост удален"});
     } catch (e) {
@@ -40,11 +40,11 @@ router.delete("/delete/:_id", auth, async (req, res) => {
 
 // /api/v1/posts/:postId/likes
 router.post("/:postId/likes", auth, async (req, res) => {
-   const post = await Post.findById(req.params.postId);
+    const post = await Post.findById(req.params.postId);
    if (!post) {
        return res.status(404).json({message: "Пост не найден"});
    }
-   const user = req.user.userId;
+   const user = req.user.id;
    if (post.likes.find(like => like.user.toString() === user)) {
         return req.status(400).json({message: "Лайк уже поставлен"});
    }

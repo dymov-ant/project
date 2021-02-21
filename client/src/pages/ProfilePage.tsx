@@ -10,6 +10,7 @@ import { GlobalState } from "../redux/store"
 import { getProfile } from "../redux/actions/profile"
 import { useHistory, useParams } from "react-router-dom"
 import CircularProgress from "@material-ui/core/CircularProgress"
+import {getPosts} from "../redux/actions/posts";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -37,6 +38,7 @@ export const ProfilePage: FC = () => {
     useEffect(() => {
         if (userId) {
             dispatch(getProfile(userId))
+            dispatch(getPosts(userId))
         } else {
             history.push("/profile/" + currentId)
         }

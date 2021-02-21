@@ -8,4 +8,6 @@ const REGISTER_URL = "auth/register"
 const login = (userData: ILoginData) => api.post<ILoginResponse>(LOGIN_URL, userData)
 const register = (userData: IRegisterData) => api.post<IResponse>(REGISTER_URL, userData)
 
-export default {login, register}
+const authAPI = {login, register}
+
+export default authAPI

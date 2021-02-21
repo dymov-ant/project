@@ -44,7 +44,7 @@ export const getPosts = (userId: string): PostsThunkType => async dispatch => {
     try {
         dispatch(setPostsLoading(true))
         const response = await postsAPI.getPosts(userId)
-        dispatch(setPosts(response.data))
+        dispatch(setPosts(response.data.posts))
         dispatch(setPostsLoading(false))
     } catch (e) {
         const response = e.response
@@ -55,10 +55,10 @@ export const getPosts = (userId: string): PostsThunkType => async dispatch => {
     }
 }
 
-export const createPost = (post: IPost): PostsThunkType => async dispatch => {
+export const createPost = (body: string): PostsThunkType => async dispatch => {
     try {
         dispatch(setPostsLoading(true))
-        const response = await postsAPI.addPost(post)
+        const response = await postsAPI.addPost(body)
         if (response.status === 201) {
             dispatch(addPost(response.data.post))
         }

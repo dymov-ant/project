@@ -3,6 +3,8 @@ import {createStyles, makeStyles, Theme} from "@material-ui/core/styles"
 import Paper from "@material-ui/core/Paper"
 import TextField from "@material-ui/core/TextField"
 import Button from "@material-ui/core/Button"
+import {useDispatch} from "react-redux";
+import {createPost} from "../../redux/actions/posts";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -26,6 +28,7 @@ export const NewPost: FC = () => {
     const classes = useStyles()
     const [visible, setVisible] = useState(false)
     const [value, setValue] = useState("")
+    const dispatch = useDispatch()
     const activate: () => void = () => {
         setVisible(true)
     }
@@ -36,7 +39,8 @@ export const NewPost: FC = () => {
         setValue(event.currentTarget.value)
     }
     const addPost: () => void = () => {
-        alert(value.trim())
+        dispatch(createPost(value.trim()))
+        // alert(value.trim())
         setValue("")
         setVisible(false)
     }
