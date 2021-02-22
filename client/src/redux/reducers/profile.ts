@@ -1,5 +1,5 @@
-import { IProfile, ProfileActionsTypes } from "../../types/profileTypes"
-import { SET_PROFILE, SET_PROFILE_LOADING } from "../actions/types"
+import {IProfile, ProfileActionsTypes} from "../../types/profileTypes"
+import {SET_PROFILE, SET_PROFILE_LOADING} from "../actions/types"
 
 interface IProfileState {
     profile: IProfile | null

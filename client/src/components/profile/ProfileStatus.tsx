@@ -1,8 +1,11 @@
-import {ChangeEvent, FC, useState} from "react"
+import {ChangeEvent, FC, useEffect, useState} from "react"
 import Typography from "@material-ui/core/Typography"
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles"
 import TextField from "@material-ui/core/TextField"
 import Button from "@material-ui/core/Button"
+import {useDispatch, useSelector} from "react-redux"
+import {updateProfileStatus} from "../../redux/actions/profile"
+import {GlobalState} from "../../redux/store"
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -24,21 +27,38 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 )
 
-export const ProfileStatus: FC = () => {
+interface IStatusProps {
+    status: string | null
+}
+
+export const ProfileStatus: FC<IStatusProps> = ({status}) => {
     const classes = useStyles()
     const [editMode, setEditMode] = useState(false)
     const [value, setValue] = useState("")
+    const userId = useSelector((state: GlobalState) => state.profileReducer.profile?.id)
+    const currentUserId = useSelector((state: GlobalState) => state.authReducer.currentUser?.profile.id)
+    const dispatch = useDispatch()
+
     const activated: () => void = () => {
-        setEditMode(true)
+        if (userId === currentUserId) {
+            setEditMode(true)
+        }
     }
     const deactivated: () => void = () => {
         setEditMode(false)
+        if (userId) {
+            dispatch(updateProfileStatus(value, userId))
+        }
         // alert(value)
         // setValue("")
     }
     const onChangeHandler: (event: ChangeEvent<HTMLTextAreaElement>) => void = (event) => {
         setValue(event.currentTarget.value)
     }
+
+    useEffect(() => {
+        setValue(status || "Статус не указан")
+    }, [status])
 
     if (editMode) {
         return (

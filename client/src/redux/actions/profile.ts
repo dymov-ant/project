@@ -33,3 +33,20 @@ export const getProfile = (userId: string): ProfileThunkType => async dispatch =
         dispatch(setProfileLoading(false))
     }
 }
+
+export const updateProfileStatus = (status: string, userId: string): ProfileThunkType => async dispatch => {
+    dispatch(setProfileLoading(true))
+    try {
+        const response = await profileAPI.updateStatus(status)
+        if (response.status === 200) {
+            dispatch(getProfile(userId))
+        }
+        dispatch(setProfileLoading(false))
+    } catch (e) {
+        const response = e.response
+        if (response.data.message) {
+            dispatch(setMessage({ type: "error", body: response.data.message }))
+        }
+        dispatch(setProfileLoading(false))
+    }
+}

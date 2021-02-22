@@ -58,11 +58,11 @@ router.put(
 
             const newProfile = req.body;
             const candidate = await User.findOne({email: newProfile.email});
-            if (candidate && candidate._id.toString() !== req.user.userId) {
+            if (candidate && candidate._id.toString() !== req.user.id) {
                 // if (candidate && candidate._id.toString() !== req.params.userId) {
                 return res.status(400).json({message: "Такой email уже используется"});
             }
-            await User.findOneAndUpdate({_id: req.user.userId}, newProfile);
+            await User.findOneAndUpdate({_id: req.user.id}, newProfile);
             res.json({message: "Профиль обновлен"});
         } catch (e) {
             res.status(500).json({message: 'Что-то пошло не так, попробуйте ещё раз!'});
@@ -97,7 +97,7 @@ router.post(
             if (!fileData) {
                 return res.status(400).json({message: "Ошибка при загрузке фотографии"});
             }
-            const user = await User.findById(req.user.userId);
+            const user = await User.findById(req.user.id);
             if (user.photo) {
                 const oldPhoto = user.photo.split("/")[user.photo.split("/").length - 1];
                 fs.unlink(path.join("content", "photos", oldPhoto), err => {
@@ -144,7 +144,7 @@ router.post(
             if (newPassword !== newPassword2) {
                 return res.status(400).json({message: "Новые пароли не совпадают!"});
             }
-            const user = await User.findById(req.user.userId);
+            const user = await User.findById(req.user.id);
             const isMatch = await bcrypt.compare(password, user.password);
             if (!isMatch) {
                 return res.status(400).json({message: "Неверный пароль, попробуйте ещё раз!"});
@@ -152,7 +152,7 @@ router.post(
 
             const hashedPassword = await bcrypt.hash(newPassword, 12);
             await User.findOneAndUpdate(
-                {_id: req.user.userId},
+                {_id: req.user.id},
                 {password: hashedPassword}
             );
 
@@ -172,7 +172,7 @@ router.post(
             if (status.length > 40) {
                 return res.status(400).json({message: "Максимальная длина статуса 40 символов"});
             }
-            await User.findOneAndUpdate({_id: req.user.userId}, {status});
+            await User.findOneAndUpdate({_id: req.user.id}, {status});
             res.json({message: "Статус обновлен"});
         } catch (e) {
             res.status(500).json({message: 'Что-то пошло не так, попробуйте ещё раз!'});

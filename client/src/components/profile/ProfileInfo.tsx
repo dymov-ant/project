@@ -45,7 +45,7 @@ export const ProfileInfo: FC = () => {
                     <Typography variant="h5" className={classes.title}>
                         {profile.name || "Нет данных"}
                     </Typography>
-                    <ProfileStatus/>
+                    <ProfileStatus status={profile.status}/>
                     <Divider/>
                 </div>
                 <div className={classes.infoWrapper}>

@@ -1,5 +1,5 @@
-import { SET_PROFILE, SET_PROFILE_LOADING } from "../redux/actions/types"
-import { ISetMessage } from "./appTypes"
+import {SET_PROFILE, SET_PROFILE_LOADING} from "../redux/actions/types"
+import {ISetMessage} from "./appTypes"
 
 export interface IProfile {
     id: string | null
