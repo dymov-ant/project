@@ -1,6 +1,8 @@
-import React, {FC} from "react"
+import React, {FC, FormEvent} from "react"
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles"
 import Button from "@material-ui/core/Button"
+import IconButton from "@material-ui/core/IconButton"
+import {PhotoCamera} from "@material-ui/icons"
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -16,11 +18,12 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 interface IUploadButtonProps {
-    body: string
+    body?: string
     name: string
+    onChange: (event: FormEvent<HTMLInputElement>) => void
 }
 
-export const UploadButton: FC<IUploadButtonProps> = ({body, name}) => {
+export const UploadButton: FC<IUploadButtonProps> = ({ body, name, onChange }) => {
     const classes = useStyles()
 
     return (
@@ -31,12 +34,22 @@ export const UploadButton: FC<IUploadButtonProps> = ({body, name}) => {
                 className={classes.input}
                 type="file"
                 name={name}
+                onChange={onChange}
             />
-            <label htmlFor="contained-button-file">
-                <Button variant="contained" color="primary" component="span">
-                    {body}
-                </Button>
-            </label>
+            {
+                body
+                    ? <label htmlFor="contained-button-file">
+                        <Button variant="contained" color="primary" component="span">
+                            {body}
+                        </Button>
+                    </label>
+                    : <label htmlFor="icon-button-file">
+                        <IconButton color="primary" aria-label="upload picture" component="span">
+                            <PhotoCamera/>
+                        </IconButton>
+                    </label>
+            }
+
         </div>
     )
 }
