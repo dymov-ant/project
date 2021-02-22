@@ -108,7 +108,7 @@ router.post(
             }
 
             await User.findOneAndUpdate(
-                {_id: req.user.userId},
+                {_id: req.user.id},
                 {photo: config.get("baseUrl") + path.join("/photos", fileData.filename)}
             );
 

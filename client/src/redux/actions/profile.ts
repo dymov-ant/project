@@ -50,3 +50,22 @@ export const updateProfileStatus = (status: string, userId: string): ProfileThun
         dispatch(setProfileLoading(false))
     }
 }
+
+export const updateProfilePhoto = (file: FormData): ProfileThunkType => async dispatch => {
+    dispatch(setProfileLoading(true))
+    try {
+        const response = await profileAPI.updateUserPhoto(file)
+        if (response.status === 200) {
+            if (response.data.message) {
+                dispatch(setMessage({type: "success", body: response.data.message}))
+            }
+        }
+        dispatch(setProfileLoading(false))
+    } catch (e) {
+        const response = e.response
+        if (response.data.message) {
+            dispatch(setMessage({ type: "error", body: response.data.message }))
+        }
+        dispatch(setProfileLoading(false))
+    }
+}

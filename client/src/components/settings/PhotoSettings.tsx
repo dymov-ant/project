@@ -7,6 +7,8 @@ import Grid from "@material-ui/core/Grid"
 import {useFormik} from "formik"
 import Button from "@material-ui/core/Button"
 import {PreviewPhoto} from "../PreviewPhoto"
+import {useDispatch} from "react-redux"
+import {updateProfilePhoto} from "../../redux/actions/profile"
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -39,13 +41,18 @@ interface IFormikValues {
 export const PhotoSettings: FC = () => {
     const classes = useStyles()
     const [img, setImg] = useState<string | ArrayBuffer | null>(null)
+    const dispatch = useDispatch()
     const initialValues: IFormikValues = {
         photo: null
     }
     const formik = useFormik({
         initialValues: initialValues,
         onSubmit: values => {
-            console.log(values.photo)
+            if (values.photo) {
+                const formData = new FormData()
+                formData.append("photo", values.photo)
+                dispatch(updateProfilePhoto(formData))
+            }
         },
     })
 
