@@ -8,6 +8,10 @@ import LinearProgress from "@material-ui/core/LinearProgress"
 import Grid from "@material-ui/core/Grid"
 import Button from "@material-ui/core/Button"
 import Typography from "@material-ui/core/Typography"
+import {useDispatch, useSelector} from "react-redux"
+import {updatePassword} from "../../redux/actions/profile"
+import {GlobalState} from "../../redux/store"
+import {setMessage} from "../../redux/actions/app"
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -44,6 +48,8 @@ const PasswordSettingsSchema = Yup.object().shape({
 
 export const PasswordSettings: FC = () => {
     const classes = useStyles()
+    const dispatch = useDispatch()
+    const isLoading = useSelector((state: GlobalState) => state.profileReducer.isProfileLoading)
 
     return (
         <Paper elevation={2} className={classes.paper}>
@@ -57,21 +63,22 @@ export const PasswordSettings: FC = () => {
                     newPassword2: ""
                 }}
                 validationSchema={PasswordSettingsSchema}
-                onSubmit={(values, {setSubmitting}) => {
-                    setTimeout(() => {
-                        console.log(123)
-                        setSubmitting(false)
-                        alert(JSON.stringify(values, null, 2))
-                    }, 5000)
+                onSubmit={(values) => {
+                    if (values.newPassword !== values.newPassword2) {
+                        dispatch(setMessage({type: "error", body: "Новые пароли не совпадают!"}))
+                    } else {
+                        dispatch(updatePassword(values))
+                    }
                 }}
             >
-                {({submitForm, isSubmitting, errors, touched}) => (
+                {({submitForm, errors, touched}) => (
                     <Form className={classes.form} noValidate>
                         <Field
                             type="password"
                             name="password"
                             component={TextField}
                             variant="outlined"
+                            disabled={isLoading}
                             required
                             fullWidth
                             label="Старый пароль"
@@ -84,6 +91,7 @@ export const PasswordSettings: FC = () => {
                             name="newPassword"
                             component={TextField}
                             required
+                            disabled={isLoading}
                             variant="outlined"
                             fullWidth
                             label="Новый пароль"
@@ -96,6 +104,7 @@ export const PasswordSettings: FC = () => {
                             name="newPassword2"
                             component={TextField}
                             required
+                            disabled={isLoading}
                             variant="outlined"
                             fullWidth
                             label="Повторите новый пароль"
@@ -103,7 +112,7 @@ export const PasswordSettings: FC = () => {
                             helperText={(errors.newPassword2 && touched.newPassword2) && errors.newPassword2}
                             className={classes.margin}
                         />
-                        {isSubmitting && <LinearProgress/>}
+                        {isLoading && <LinearProgress/>}
                         <Grid container justify="flex-end">
                             <Grid item>
                                 <Button
@@ -111,7 +120,7 @@ export const PasswordSettings: FC = () => {
                                     onClick={submitForm}
                                     variant="contained"
                                     color="primary"
-                                    disabled={isSubmitting}
+                                    disabled={isLoading}
                                     className={classes.submit}
                                 >
                                     Сменить пароль

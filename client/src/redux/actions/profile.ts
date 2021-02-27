@@ -1,4 +1,10 @@
-import { IProfile, ISetProfile, ISetProfileLoading, ProfileActionsTypes } from "../../types/profileTypes"
+import {
+    IPasswordsToUpdate,
+    IProfile,
+    ISetProfile,
+    ISetProfileLoading,
+    ProfileActionsTypes
+} from "../../types/profileTypes"
 import { SET_PROFILE, SET_PROFILE_LOADING } from "./types"
 import { ThunkAction } from "redux-thunk"
 import { GlobalState } from "../store"
@@ -66,6 +72,24 @@ export const updateProfilePhoto = (file: FormData): ProfileThunkType => async di
         if (response.data.message) {
             dispatch(setMessage({ type: "error", body: response.data.message }))
         }
+        dispatch(setProfileLoading(false))
+    }
+}
+
+export const updatePassword = (passwords: IPasswordsToUpdate): ProfileThunkType => async dispatch => {
+    dispatch(setProfileLoading(true))
+    try {
+        const response = await profileAPI.updatePassword(passwords)
+        if (response.status === 200) {
+            dispatch(setMessage({type: "success", body: "Пароль изменен"}))
+        }
+        dispatch(setProfileLoading(false))
+    } catch (e) {
+        const response = e.response
+        if (response.data.message) {
+            dispatch(setMessage({ type: "error", body: response.data.message }))
+        }
+        console.log(123)
         dispatch(setProfileLoading(false))
     }
 }

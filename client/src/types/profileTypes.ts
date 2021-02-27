@@ -13,6 +13,12 @@ export interface IProfile {
     photo: string | null
 }
 
+export interface IPasswordsToUpdate {
+    password: string
+    newPassword: string
+    newPassword2: string
+}
+
 export interface ISetProfileLoading {
     type: typeof SET_PROFILE_LOADING
     isLoading: boolean
