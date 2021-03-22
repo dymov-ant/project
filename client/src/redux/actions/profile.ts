@@ -1,6 +1,6 @@
 import {
     IPasswordsToUpdate,
-    IProfile,
+    IProfile, IProfileToUpdate,
     ISetProfile,
     ISetProfileLoading,
     ProfileActionsTypes
@@ -89,7 +89,24 @@ export const updatePassword = (passwords: IPasswordsToUpdate): ProfileThunkType 
         if (response.data.message) {
             dispatch(setMessage({ type: "error", body: response.data.message }))
         }
-        console.log(123)
+        dispatch(setProfileLoading(false))
+    }
+}
+
+export const updateProfile = (userId: string, profile: IProfileToUpdate): ProfileThunkType => async dispatch => {
+    try {
+        dispatch(setProfileLoading(true))
+        const response = await profileAPI.updateProfile(profile)
+        if (response.status === 200) {
+            dispatch(getProfile(userId))
+            dispatch(setMessage({type: "success", body: "Профиль изменен"}))
+        }
+        dispatch(setProfileLoading(false))
+    } catch (e) {
+        const response = e.response
+        if (response.data.message) {
+            dispatch(setMessage({ type: "error", body: response.data.message }))
+        }
         dispatch(setProfileLoading(false))
     }
 }
